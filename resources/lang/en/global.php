@@ -323,4 +323,5 @@ return [
     'calendar'                       => 'Calendar',
     'messenger'                      => 'Messenger',
     'search'                         => 'search here',
+    'f_open'                         => 'There is an open fiscal year',
 ];

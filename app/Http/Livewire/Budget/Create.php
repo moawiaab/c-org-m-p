@@ -7,12 +7,14 @@ use App\Models\Budget;
 use App\Models\BudgetName;
 use App\Models\FiscalYear;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public Budget $budget;
-
+    private $fisc;
     public array $listsForFields = [];
 
     public function mount(Budget $budget)
@@ -31,10 +33,25 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
-
-        $this->budget->save();
-
-        return redirect()->route('admin.budgets.index');
+        $br = Branch::find(auth()->user()->br_id);
+        if ($br->status == 1) {
+            $fisc = FiscalYear::whereIn('br_id', Branch::where('status', 1)->pluck('id'))->where('status', 1)->first();
+        } else {
+            $fisc = FiscalYear::where('br_id', auth()->user()->br_id)->where('status', 1)->first();
+        }
+        if ($fisc === null) {
+            $this->flash('error', trans('global.f_open'));
+            return redirect()->route('admin.budgets.index');
+        } else {
+            $this->budget->user_id        = auth()->id();
+            $this->budget->br_id          = auth()->user()->br_id;
+            $this->budget->expense_amount = 0;
+            $this->budget->fiscal_year_id = $fisc->id;
+            $this->budget->status         = 1;
+            $this->budget->save();
+            $this->flash('success', trans('global.create_success'));
+            return redirect()->route('admin.budgets.index');
+        }
     }
 
     protected function rules(): array
@@ -45,16 +62,6 @@ class Create extends Component
                 'exists:budget_names,id',
                 'required',
             ],
-            'budget.br_id' => [
-                'integer',
-                'exists:branches,id',
-                'nullable',
-            ],
-            'budget.user_id' => [
-                'integer',
-                'exists:users,id',
-                'nullable',
-            ],
             'budget.fiscal_year_id' => [
                 'integer',
                 'exists:fiscal_years,id',
@@ -64,23 +71,13 @@ class Create extends Component
                 'numeric',
                 'required',
             ],
-            'budget.expense_amount' => [
-                'numeric',
-                'nullable',
-            ],
-            'budget.status' => [
-                'nullable',
-                'in:' . implode(',', array_keys($this->listsForFields['status'])),
-            ],
+
         ];
     }
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['budget']      = BudgetName::pluck('name', 'id')->toArray();
-        $this->listsForFields['br']          = Branch::pluck('name', 'id')->toArray();
-        $this->listsForFields['user']        = User::pluck('name', 'id')->toArray();
-        $this->listsForFields['fiscal_year'] = FiscalYear::pluck('date', 'id')->toArray();
-        $this->listsForFields['status']      = $this->budget::STATUS_RADIO;
+        $this->listsForFields['budget']      = BudgetName::whereNotIn('id', Budget::where([['br_id', auth()->user()->br_id], ['status', 1]])->pluck('budget_id'))
+        ->where('type', 1)->orWhere('br_id', auth()->user()->br_id)->pluck('name', 'id')->toArray();
     }
 }

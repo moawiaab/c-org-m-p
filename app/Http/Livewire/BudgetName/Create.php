@@ -5,10 +5,12 @@ namespace App\Http\Livewire\BudgetName;
 use App\Models\Branch;
 use App\Models\BudgetName;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public BudgetName $budgetName;
 
     public array $listsForFields = [];
@@ -17,6 +19,7 @@ class Create extends Component
     {
         $this->budgetName         = $budgetName;
         $this->budgetName->status = '1';
+        $this->budgetName->type = '1';
         $this->initListsForFields();
     }
 
@@ -28,9 +31,10 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->budgetName->user_id = auth()->id();
+        $this->budgetName->br_id   = auth()->user()->br_id;
         $this->budgetName->save();
-
+        $this->flash('success', trans('global.create_success'));
         return redirect()->route('admin.budget-names.index');
     }
 

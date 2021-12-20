@@ -5,10 +5,12 @@ namespace App\Http\Livewire\FiscalYear;
 use App\Models\Branch;
 use App\Models\FiscalYear;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public FiscalYear $fiscalYear;
 
     public array $listsForFields = [];
@@ -28,8 +30,9 @@ class Edit extends Component
     {
         $this->validate();
 
+        //TODO: move bank amount to new years 
         $this->fiscalYear->save();
-
+        $this->flash('success',trans('global.update_success'));
         return redirect()->route('admin.fiscal-years.index');
     }
 

@@ -35,6 +35,9 @@ class BudgetController extends Controller
     public function edit(Budget $budget)
     {
         abort_if(Gate::denies('budget_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if (auth()->user()->br_id !== 1 && $budget->br_id != auth()->user()->br_id) {
+            abort_if(true, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        }
 
         return view('admin.budget.edit', compact('budget'));
     }
@@ -42,7 +45,9 @@ class BudgetController extends Controller
     public function show(Budget $budget)
     {
         abort_if(Gate::denies('budget_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        if (auth()->user()->br_id !== 1 && $budget->br_id != auth()->user()->br_id) {
+            abort_if(true, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        }
         $budget->load('budget', 'br', 'user', 'fiscalYear');
 
         return view('admin.budget.show', compact('budget'));

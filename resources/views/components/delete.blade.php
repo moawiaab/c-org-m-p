@@ -25,7 +25,7 @@
                     showCancelButton: false,
                     showConfirmButton: false,
                     position: 'center',
-                    timer: 3000,
+                    timer: 1500,
                     toast: true,
                 })
             } else if (
@@ -40,7 +40,7 @@
                     showCancelButton: false,
                     showConfirmButton: false,
                     position: 'center',
-                    timer: 2000,
+                    timer: 1500,
                     toast: true,
                 })
             }

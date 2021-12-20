@@ -1,5 +1,5 @@
 <div x-data="{ open: {{ $errors->has('csv_file') || $errors->has('has_header') ? 'true' : 'false' }} }" class="inline-block">
-    <button type="button" class="btn btn-secondary" x-on:click="open = true">
+    <button type="button" class="btn btn-sm text-blue" x-on:click="open = true">
         <i class="fas fa-file-csv fa-fw mr-1"></i>
         csv import
     </button>

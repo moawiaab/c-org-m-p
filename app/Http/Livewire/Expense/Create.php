@@ -46,9 +46,15 @@ class Create extends Component
 
     public function submit()
     {
+        dd($this->validate());
         $this->validate();
+        $bud = Budget::find($this->expense->budget_id);
+        
+        $this->expense->user_id        = auth()->id();
+        $this->expense->br_id          = auth()->user()->br_id;
 
         $this->expense->save();
+        $this->flash('success', trans('global.create_success'));
         $this->syncMedia();
 
         return redirect()->route('admin.expenses.index');
@@ -78,7 +84,8 @@ class Create extends Component
             ],
             'expense.amount' => [
                 'numeric',
-                'nullable',
+                'required',
+                'min:1'
             ],
             'expense.text_amount' => [
                 'string',
@@ -109,7 +116,7 @@ class Create extends Component
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['bud_name'] = BudgetName::pluck('name', 'id')->toArray();
-        $this->listsForFields['budget']   = Budget::pluck('amount', 'id')->toArray();
+        // $this->listsForFields['bud_name'] = BudgetName::pluck('name', 'id')->toArray();
+        $this->listsForFields['budget']   = Budget::join('budget_names', 'budgets.budget_id', '=', 'budget_names.id')->select('budgets.id as id', 'budget_names.name as name')->pluck('name', 'id')->toArray();
     }
 }

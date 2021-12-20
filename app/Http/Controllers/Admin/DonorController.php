@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Donor;
 use Gate;
 use Illuminate\Http\Request;
@@ -28,15 +29,22 @@ class DonorController extends Controller
     {
         abort_if(Gate::denies('donor_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if (auth()->user()->br_id !== 1 && $donor->br_id != auth()->user()->br_id) {
+            abort_if(true, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        }
         return view('admin.donor.edit', compact('donor'));
     }
 
     public function show(Donor $donor)
     {
+        // dd(auth()->user()->br_id == 1 || $donor->br_id == auth()->user()->br_id);
         abort_if(Gate::denies('donor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if (auth()->user()->br_id == 1 || $donor->br_id == auth()->user()->br_id) {
+            $donor->load('br', 'user');
+            return view('admin.donor.show', compact('donor'));
+        } else {
+           return abort_if(true, Response::HTTP_FORBIDDEN, '403 Forbidden');
+        }
 
-        $donor->load('br', 'user');
-
-        return view('admin.donor.show', compact('donor'));
     }
 }

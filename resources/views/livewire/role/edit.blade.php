@@ -32,11 +32,11 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-indigo mr-2" type="submit">
-            {{ trans('global.save') }}
+       <button class="btn btn-sm bg-gradient-info mr-2" type="submit">
+             <i class="far fa-save mr-2 text-white"> {{ trans('global.save') }} </i>
         </button>
-        <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">
-            {{ trans('global.cancel') }}
+        <a href="{{ route('admin.roles.index') }}" class="btn btn-sm bg-gradient-danger">
+           <i class="fas fa-times  mr-2 text-white">  {{ trans('global.cancel') }} </i>
         </a>
     </div>
 </form>

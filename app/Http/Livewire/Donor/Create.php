@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Donor;
 use App\Models\Branch;
 use App\Models\Donor;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public Donor $donor;
 
     public array $listsForFields = [];
@@ -28,8 +30,11 @@ class Create extends Component
     {
         $this->validate();
 
+        $this->donor->user_id = auth()->id();
+        $this->donor->br_id   = auth()->user()->br_id;
+        $this->donor->amount = 0;
         $this->donor->save();
-
+        $this->flash('success',trans('global.create_success'));
         return redirect()->route('admin.donors.index');
     }
 
@@ -56,20 +61,8 @@ class Create extends Component
                 'string',
                 'nullable',
             ],
-            'donor.amount' => [
-                'numeric',
-                'nullable',
-            ],
-            'donor.br_id' => [
-                'integer',
-                'exists:branches,id',
-                'nullable',
-            ],
-            'donor.user_id' => [
-                'integer',
-                'exists:users,id',
-                'nullable',
-            ],
+
+      
         ];
     }
 

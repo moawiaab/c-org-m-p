@@ -44,7 +44,7 @@
                                         href="{{ route('admin.branches.index') }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-code-branch">
                                         </i>
-                                        {{ trans('cruds.brabch.title') }}
+                                        {{ trans('cruds.branch.title') }}
                                     </a>
                                 </li>
                             @endcan

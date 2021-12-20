@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Branch;
 
 use App\Models\Branch;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public Branch $branch;
 
     public array $mediaToRemove = [];
@@ -55,6 +57,7 @@ class Edit extends Component
 
         $this->branch->save();
         $this->syncMedia();
+        $this->flash('success',trans('global.update_success'));
 
         return redirect()->route('admin.branches.index');
     }

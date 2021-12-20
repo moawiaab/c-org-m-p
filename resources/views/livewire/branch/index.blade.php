@@ -3,18 +3,20 @@
         <div class="w-full sm:w-1/2">
             Per page:
             <select wire:model="perPage" class="form-select w-full sm:w-1/6">
-                @foreach($paginationOptions as $value)
+                @foreach ($paginationOptions as $value)
                     <option value="{{ $value }}">{{ $value }}</option>
                 @endforeach
             </select>
 
             @can('branch_delete')
-                <button class="btn btn-sm ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="confirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
+                <button class="btn btn-sm ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button"
+                    wire:click="deleteAllConfirm('deleteSelected')" wire:loading.attr="disabled"
+                    {{ $this->selectedCount ? '' : 'disabled' }}>
                     <i class="far fa-trash-alt text-danger" title=" {{ __('Delete Selected') }}"></i>
                 </button>
             @endcan
 
-            @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
+            @if (file_exists(app_path('Http/Livewire/ExcelExport.php')))
                 <livewire:excel-export model="Branch" format="csv" />
                 <livewire:excel-export model="Branch" format="xlsx" />
                 <livewire:excel-export model="Branch" format="pdf" />
@@ -25,8 +27,8 @@
 
         </div>
         <div class="w-full sm:w-1/2 sm:text-right">
-            Search:
-            <input type="text" wire:model.debounce.300ms="search" class="w-full sm:w-1/3 inline-block" />
+            <input type="text" wire:model.debounce.300ms="search" class="inline-block form-control"
+                placeholder="{{ trans('global.search') }}" />
         </div>
     </div>
     <div wire:loading.delay>
@@ -100,9 +102,10 @@
                                 {{ $branch->status_label }}
                             </td>
                             <td>
-                                @foreach($branch->logo as $key => $entry)
+                                @foreach ($branch->logo as $key => $entry)
                                     <a class="link-photo" href="{{ $entry['url'] }}">
-                                        <img src="{{ $entry['thumbnail'] }}" alt="{{ $entry['name'] }}" title="{{ $entry['name'] }}">
+                                        <img src="{{ $entry['thumbnail'] }}" alt="{{ $entry['name'] }}"
+                                            title="{{ $entry['name'] }}">
                                     </a>
                                 @endforeach
                             </td>
@@ -119,14 +122,17 @@
                                         </a>
                                     @endcan
                                     @can('branch_delete')
-                                        <button class="btn btn-sm mr-2" type="button" wire:click="confirm('delete', {{ $branch->id }})" wire:loading.attr="disabled">
-                                            <i class="far fa-trash-alt text-danger" title="{{ trans('global.delete') }}"></i>
+                                        <button class="btn btn-sm mr-2" type="button"
+                                            wire:click="deleteConfirm( {{ $branch->id }})"
+                                            wire:loading.attr="disabled">
+                                            <i class="far fa-trash-alt text-danger"
+                                                title="{{ trans('global.delete') }}"></i>
                                         </button>
                                     @endcan
                                 </div>
                             </td>
                         </tr>
-                        @empty
+                    @empty
                         <tr>
                             <td colspan="10">No entries found.</td>
                         </tr>
@@ -138,7 +144,7 @@
 
     <div class="card-body">
         <div class="pt-3">
-            @if($this->selectedCount)
+            @if ($this->selectedCount)
                 <p class="text-sm leading-5">
                     <span class="font-medium">
                         {{ $this->selectedCount }}
@@ -152,12 +158,6 @@
 </div>
 
 @push('scripts')
-    <script>
-        Livewire.on('confirm', e => {
-    if (!confirm("{{ trans('global.areYouSure') }}")) {
-        return
-    }
-@this[e.callback](...e.argv)
-})
-    </script>
+    <x-delete />
+    <x-deleteAll />
 @endpush

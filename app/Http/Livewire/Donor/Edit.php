@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Donor;
 use App\Models\Branch;
 use App\Models\Donor;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public Donor $donor;
 
     public array $listsForFields = [];
@@ -29,7 +31,7 @@ class Edit extends Component
         $this->validate();
 
         $this->donor->save();
-
+        $this->flash('success', trans('global.update_success'));
         return redirect()->route('admin.donors.index');
     }
 
@@ -60,16 +62,7 @@ class Edit extends Component
                 'numeric',
                 'nullable',
             ],
-            'donor.br_id' => [
-                'integer',
-                'exists:branches,id',
-                'nullable',
-            ],
-            'donor.user_id' => [
-                'integer',
-                'exists:users,id',
-                'nullable',
-            ],
+           
         ];
     }
 

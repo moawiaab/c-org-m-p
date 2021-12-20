@@ -23,6 +23,7 @@ class Index extends Component
     public string $search = '';
 
     public array $selected = [];
+    public $listeners = ['delete'];
 
     public array $paginationOptions;
 
@@ -94,5 +95,34 @@ class Index extends Component
         abort_if(Gate::denies('user_alert_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $userAlert->delete();
+        $this->resetSelected();
+    }
+
+    public function deleteConfirm($id)
+    {
+        $this->dispatchBrowserEvent(
+            'swal:comfirm',
+            [
+                'type'  => 'warning',
+                'text' => 'are yuo suory',
+                'title' => 'delete',
+                'id' => $id
+            ]
+
+        );
+    }
+
+    public function deleteAllConfirm()
+    {
+        $this->dispatchBrowserEvent(
+            'swal:comfirmAll',
+            [
+                'type'  => 'warning',
+                'text' => 'are yuo suory',
+                'title' => 'deleteSelected',
+                'id'    => $this->selected
+            ]
+
+        );
     }
 }

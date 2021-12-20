@@ -6,10 +6,11 @@
  */
 return [
     'alert' => [
-        'position' => 'top-end',
-        'timer' => 3000,
+        'position' => 'center',
+        'timer' => 2000,
         'toast' => true,
         'text' => null,
+        'timerProgressBar' => true,
         'showCancelButton' => false,
         'showConfirmButton' => false
     ],

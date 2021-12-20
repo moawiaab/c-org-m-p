@@ -322,4 +322,5 @@ return [
     'leave'                          => 'Leave',
     'calendar'                       => 'التقويم',
     'messenger'                      => 'مراسل',
+    'search'                         => 'ابحث هنا',
 ];

@@ -9,7 +9,7 @@
             </select>
 
             @can('project_stage_delete')
-                <button class="btn btn-rose ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="confirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
+                <button class="btn btn-sm ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="deleteAllConfirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
                     <i class="far fa-trash-alt text-danger" title=" {{ __('Delete Selected') }}"></i>
                 </button>
             @endcan
@@ -27,8 +27,7 @@
 
         </div>
         <div class="w-full sm:w-1/2 sm:text-right">
-            Search:
-            <input type="text" wire:model.debounce.300ms="search" class="w-full sm:w-1/3 inline-block" />
+            <input type="text" wire:model.debounce.300ms="search" class="inline-block form-control" placeholder="{{ trans('global.search') }}"/>
         </div>
     </div>
     <div wire:loading.delay>
@@ -149,7 +148,7 @@
                                         </a>
                                     @endcan
                                     @can('project_stage_delete')
-                                        <button class="btn btn-sm mr-2" type="button" wire:click="confirm('delete', {{ $projectStage->id }})" wire:loading.attr="disabled">
+                                        <button class="btn btn-sm mr-2" type="button" wire:click="deleteConfirm( {{ $projectStage->id }})" wire:loading.attr="disabled">
                                             <i class="far fa-trash-alt text-danger" title="{{ trans('global.delete') }}"></i>
                                         </button>
                                     @endcan
@@ -182,12 +181,6 @@
 </div>
 
 @push('scripts')
-    <script>
-        Livewire.on('confirm', e => {
-    if (!confirm("{{ trans('global.areYouSure') }}")) {
-        return
-    }
-@this[e.callback](...e.argv)
-})
-    </script>
+  <x-delete />
+    <x-deleteAll />
 @endpush

@@ -1,21 +1,25 @@
 @extends('layouts.admin')
-@section('content')
-<div class="row">
-    <div class="card bg-blueGray-100">
-        <div class="card-header">
-            <div class="card-header-container">
-                <h6 class="card-title">
-                    <i class="far fa-edit text-success" title="{{ trans('global.edit') }}"></i>
-                    {{ trans('cruds.branch.title_singular') }}:
-                    {{ trans('cruds.branch.fields.id') }}
-                    {{ $branch->id }}
-                </h6>
-            </div>
-        </div>
-
-        <div class="card-body">
-            @livewire('branch.edit', [$branch])
-        </div>
+@section('header')
+    <div class="col-sm-6">
+        {{-- @can('branch_create') --}}
+        <a class="btn btn-sm bg-gradient-info" href="{{ route('admin.branches.index') }}">
+            <i class="fas fa-arrow-left"></i>
+            {{ trans('global.back') }}
+        </a>
+        {{-- @endcan --}}
     </div>
-</div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">{{ trans('global.edit') }}
+                {{ trans('cruds.branch.title_singular') }} {{ trans('cruds.branch.fields.id') }}
+                {{ $branch->id }}</li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('admin.branches.index') }}">{{ trans('cruds.branch.title_singular') }}
+                    {{ trans('global.list') }}</a></li>
+            <li class="breadcrumb-item active"><a href="/"> {{ trans('global.dashboard') }}</a></li>
+        </ol>
+    </div>
+@endsection
+@section('content')
+    @livewire('branch.edit', [$branch])
 @endsection

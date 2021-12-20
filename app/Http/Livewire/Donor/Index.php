@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Donor;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
+use App\Models\Branch;
 use App\Models\Donor;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -23,6 +24,7 @@ class Index extends Component
     public string $search = '';
 
     public array $selected = [];
+    public $listeners = ['delete'];
 
     public array $paginationOptions;
 
@@ -73,7 +75,11 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ]);
+        ])->when(auth()->user()->br_id === 1, function ($q) {
+            $q->whereIn('br_id', Branch::where('status', 1)->pluck('id'));
+        })->when(auth()->user()->br_id != 1, function ($q) {
+            $q->where('br_id', auth()->user()->br_id);
+        });
 
         $donors = $query->paginate($this->perPage);
 
@@ -94,5 +100,34 @@ class Index extends Component
         abort_if(Gate::denies('donor_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $donor->delete();
+        $this->resetSelected();
+    }
+
+    public function deleteConfirm($id)
+    {
+        $this->dispatchBrowserEvent(
+            'swal:comfirm',
+            [
+                'type'  => 'warning',
+                'text' => 'are yuo suory',
+                'title' => 'delete',
+                'id' => $id
+            ]
+
+        );
+    }
+
+    public function deleteAllConfirm()
+    {
+        $this->dispatchBrowserEvent(
+            'swal:comfirmAll',
+            [
+                'type'  => 'warning',
+                'text' => 'are yuo suory',
+                'title' => 'deleteSelected',
+                'id'    => $this->selected
+            ]
+
+        );
     }
 }

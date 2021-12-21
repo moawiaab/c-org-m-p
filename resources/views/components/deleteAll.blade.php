@@ -28,7 +28,7 @@
 
                 Swal.fire({
                     // title: 'Error!',
-                    text: 'Selector has been deleted',
+                    text: event.detail.text,
                     icon: 'success',
                     timerProgressBar: true,
                     showCancelButton: false,

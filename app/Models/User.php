@@ -25,6 +25,15 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
 
+    public const STATUS_RADIO =
+    [
+        1 => 'Managing Director',
+        2 => 'Executive Director',
+        3 => 'Financial Director',
+        4 => 'Director of the Department',
+        5 => 'Accountant',
+        6 => 'Employee',
+    ];
     public $table = 'users';
 
     public $orderable = [
@@ -35,6 +44,7 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         'locale',
         'br.name',
         'phone',
+        'status',
     ];
 
     public $filterable = [
@@ -46,6 +56,7 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         'locale',
         'br.name',
         'phone',
+        'status',
     ];
 
     protected $appends = [
@@ -71,6 +82,7 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         'locale',
         'br_id',
         'phone',
+        'status',
     ];
 
     public function getIsAdminAttribute()
@@ -93,6 +105,10 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         return $this->locale;
     }
 
+    public function getStatusLabelAttribute($value)
+    {
+        return static::STATUS_RADIO[$this->status] ?? null;
+    }
     public function registerMediaConversions(Media $media = null): void
     {
         $thumbnailWidth  = 50;

@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Role;
 use App\Models\Branch;
 use App\Models\Permission;
 use App\Models\Role;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public Role $role;
 
     public array $permissions = [];
@@ -32,6 +34,7 @@ class Edit extends Component
         $this->validate();
 
         $this->role->save();
+        $this->flash('success', trans('global.update_success'));
         $this->role->permissions()->sync($this->permissions);
 
         return redirect()->route('admin.roles.index');
@@ -52,17 +55,12 @@ class Edit extends Component
                 'integer',
                 'exists:permissions,id',
             ],
-            'role.br_id' => [
-                'integer',
-                'exists:branches,id',
-                'nullable',
-            ],
         ];
     }
 
     protected function initListsForFields(): void
     {
         $this->listsForFields['permissions'] = Permission::pluck('title', 'id')->toArray();
-        $this->listsForFields['br']          = Branch::pluck('name', 'id')->toArray();
+        // $this->listsForFields['br']          = Branch::pluck('name', 'id')->toArray();
     }
 }

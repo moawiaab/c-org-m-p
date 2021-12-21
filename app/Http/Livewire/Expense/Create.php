@@ -5,11 +5,13 @@ namespace App\Http\Livewire\Expense;
 use App\Models\Budget;
 use App\Models\BudgetName;
 use App\Models\Expense;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public Expense $expense;
 
     public array $mediaToRemove = [];
@@ -46,12 +48,14 @@ class Create extends Component
 
     public function submit()
     {
-        dd($this->validate());
+        // dd($this->validate());
         $this->validate();
         $bud = Budget::find($this->expense->budget_id);
-        
         $this->expense->user_id        = auth()->id();
         $this->expense->br_id          = auth()->user()->br_id;
+        $this->expense->bud_name_id    = $bud->budget_id;
+        // $this->expense->stage          = 'New';
+
 
         $this->expense->save();
         $this->flash('success', trans('global.create_success'));
@@ -117,6 +121,7 @@ class Create extends Component
     protected function initListsForFields(): void
     {
         // $this->listsForFields['bud_name'] = BudgetName::pluck('name', 'id')->toArray();
-        $this->listsForFields['budget']   = Budget::join('budget_names', 'budgets.budget_id', '=', 'budget_names.id')->select('budgets.id as id', 'budget_names.name as name')->pluck('name', 'id')->toArray();
+        $this->listsForFields['budget']   = Budget::select('budgets.id as id', 'budget_names.name as name')
+        ->join('budget_names', 'budget_names.id','=', 'budgets.budget_id')->where('budgets.br_id', auth()->user()->br_id)->pluck('name', 'id')->toArray();
     }
 }

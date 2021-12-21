@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Role;
 use App\Models\Branch;
 use App\Models\Permission;
 use App\Models\Role;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public Role $role;
 
     public array $permissions = [];
@@ -18,6 +20,7 @@ class Create extends Component
     public function mount(Role $role)
     {
         $this->role = $role;
+        $this->role->br_id = auth()->user()->br_id; 
         $this->initListsForFields();
     }
 
@@ -31,6 +34,7 @@ class Create extends Component
         $this->validate();
 
         $this->role->save();
+        $this->flash('success', trans('global.create_success'));
         $this->role->permissions()->sync($this->permissions);
 
         return redirect()->route('admin.roles.index');
@@ -62,6 +66,6 @@ class Create extends Component
     protected function initListsForFields(): void
     {
         $this->listsForFields['permissions'] = Permission::pluck('title', 'id')->toArray();
-        $this->listsForFields['br']          = Branch::pluck('name', 'id')->toArray();
+        $this->listsForFields['br']          = Branch::where('status', 1)->pluck('name', 'id')->toArray();
     }
 }

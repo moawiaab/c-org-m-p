@@ -5,11 +5,13 @@ namespace App\Http\Livewire\User;
 use App\Models\Branch;
 use App\Models\Role;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public User $user;
 
     public array $roles = [];
@@ -53,6 +55,7 @@ class Create extends Component
         $this->user->password = $this->password;
         $this->user->save();
         $this->user->roles()->sync($this->roles);
+        $this->flash('success', trans('global.create_success'));
         $this->syncMedia();
 
         return redirect()->route('admin.users.index');
@@ -81,6 +84,9 @@ class Create extends Component
             ],
             'password' => [
                 'string',
+                'required',
+            ],
+            'user.status' => [
                 'required',
             ],
             'roles' => [
@@ -119,5 +125,6 @@ class Create extends Component
     {
         $this->listsForFields['roles'] = Role::pluck('title', 'id')->toArray();
         $this->listsForFields['br']    = Branch::pluck('name', 'id')->toArray();
+        $this->listsForFields['status'] = $this->user::STATUS_RADIO;
     }
 }

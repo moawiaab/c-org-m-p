@@ -104,7 +104,7 @@ class Index extends Component
             'swal:comfirm',
             [
                 'type'  => 'warning',
-                'text' => 'are yuo suory',
+                'text' => 'Deleted successfully.',
                 'title' => 'delete',
                 'id' => $id
             ]
@@ -118,7 +118,7 @@ class Index extends Component
             'swal:comfirmAll',
             [
                 'type'  => 'warning',
-                'text' => 'are yuo suory',
+                'text' => 'Deleted successfully.',
                 'title' => 'deleteSelected',
                 'id'    => $this->selected
             ]

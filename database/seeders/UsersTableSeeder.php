@@ -18,7 +18,8 @@ class UsersTableSeeder extends Seeder
                 'password'       => bcrypt('password'),
                 'remember_token' => null,
                 'locale'         => 'en',
-                'br_id'          => 1
+                'br_id'          => 1,
+                'status'         => 1,
             ],
         ];
 

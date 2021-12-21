@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Role;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
+use App\Models\Branch;
 use App\Models\Role;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -74,7 +75,11 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ]);
+        ])->when(auth()->user()->br_id === 1, function ($q) {
+            $q->whereIn('br_id', Branch::where('status', 1)->pluck('id'));
+        })->when(auth()->user()->br_id != 1, function ($q) {
+            $q->where('br_id', auth()->user()->br_id);
+        });
 
         $roles = $query->paginate($this->perPage);
 
@@ -104,7 +109,7 @@ class Index extends Component
             'swal:comfirm',
             [
                 'type'  => 'warning',
-                'text' => 'are yuo suory',
+                'text' => 'Deleted successfully.',
                 'title' => 'delete',
                 'id' => $id
             ]
@@ -118,7 +123,7 @@ class Index extends Component
             'swal:comfirmAll',
             [
                 'type'  => 'warning',
-                'text' => 'are yuo suory',
+                'text' => 'Deleted successfully.',
                 'title' => 'deleteSelected',
                 'id'    => $this->selected
             ]

@@ -19,7 +19,7 @@
             if (result.isConfirmed) {
                 window.Livewire.emit('delete', event.detail.id);
                 Swal.fire({
-                    text: 'Deleted successfully.',
+                    text: event.detail.text,
                     icon: 'success',
                     timerProgressBar: true,
                     showCancelButton: false,

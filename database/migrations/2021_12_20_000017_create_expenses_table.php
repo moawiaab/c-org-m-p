@@ -15,7 +15,7 @@ class CreateExpensesTable extends Migration
             $table->string('beneficiary');
             $table->longText('details');
             $table->longText('feeding')->nullable();
-            $table->string('stage')->nullable();
+            $table->tinyText('stage')->default('new');
             $table->timestamps();
             $table->softDeletes();
         });

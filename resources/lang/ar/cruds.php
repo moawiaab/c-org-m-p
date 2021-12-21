@@ -77,6 +77,8 @@ return [
             'phone_helper'             => ' ',
             'avatar'                   => 'Avatar',
             'avatar_helper'            => ' ',
+            'status'                   => 'صلاحيات المستخدم',
+            'status_helper'            => ' ',
         ],
     ],
     'setting' => [

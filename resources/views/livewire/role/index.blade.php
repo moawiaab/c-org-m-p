@@ -3,18 +3,20 @@
         <div class="w-full sm:w-1/2">
             Per page:
             <select wire:model="perPage" class="form-select w-full sm:w-1/6">
-                @foreach($paginationOptions as $value)
+                @foreach ($paginationOptions as $value)
                     <option value="{{ $value }}">{{ $value }}</option>
                 @endforeach
             </select>
 
             @can('role_delete')
-                <button class="btn btn-sm ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="deleteAllConfirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
+                <button class="btn btn-sm ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button"
+                    wire:click="deleteAllConfirm('deleteSelected')" wire:loading.attr="disabled"
+                    {{ $this->selectedCount ? '' : 'disabled' }}>
                     <i class="far fa-trash-alt text-danger" title=" {{ __('Delete Selected') }}"></i>
                 </button>
             @endcan
 
-            @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
+            @if (file_exists(app_path('Http/Livewire/ExcelExport.php')))
                 <livewire:excel-export model="Role" format="csv" />
                 <livewire:excel-export model="Role" format="xlsx" />
                 <livewire:excel-export model="Role" format="pdf" />
@@ -25,7 +27,8 @@
 
         </div>
         <div class="w-full sm:w-1/2 sm:text-right">
-            <input type="text" wire:model.debounce.300ms="search" class="inline-block form-control" placeholder="{{ trans('global.search') }}"/>
+            <input type="text" wire:model.debounce.300ms="search" class="inline-block form-control"
+                placeholder="{{ trans('global.search') }}" />
         </div>
     </div>
     <div wire:loading.delay>
@@ -50,10 +53,12 @@
                         <th>
                             {{ trans('cruds.role.fields.permissions') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.role.fields.br') }}
-                            @include('components.table.sort', ['field' => 'br.name'])
-                        </th>
+                        @if (auth()->user()->br_id == 1)
+                            <th>
+                                {{ trans('cruds.role.fields.br') }}
+                                @include('components.table.sort', ['field' => 'br.name'])
+                            </th>
+                        @endif
                         <th>
                         </th>
                     </tr>
@@ -71,15 +76,17 @@
                                 {{ $role->title }}
                             </td>
                             <td>
-                                @foreach($role->permissions as $key => $entry)
+                                @foreach ($role->permissions as $key => $entry)
                                     <span class="badge badge-relationship">{{ $entry->title }}</span>
                                 @endforeach
                             </td>
-                            <td>
-                                @if($role->br)
-                                    <span class="badge badge-relationship">{{ $role->br->name ?? '' }}</span>
-                                @endif
-                            </td>
+                            @if (auth()->user()->br_id == 1)
+                                <td>
+                                    @if ($role->br)
+                                        <span class="badge badge-relationship">{{ $role->br->name ?? '' }}</span>
+                                    @endif
+                                </td>
+                            @endif
                             <td>
                                 <div class="flex justify-end">
                                     @can('role_show')
@@ -93,14 +100,16 @@
                                         </a>
                                     @endcan
                                     @can('role_delete')
-                                        <button class="btn btn-sm mr-2" type="button" wire:click="deleteConfirm( {{ $role->id }})" wire:loading.attr="disabled">
-                                            <i class="far fa-trash-alt text-danger" title="{{ trans('global.delete') }}"></i>
+                                        <button class="btn btn-sm mr-2" type="button"
+                                            wire:click="deleteConfirm( {{ $role->id }})" wire:loading.attr="disabled">
+                                            <i class="far fa-trash-alt text-danger"
+                                                title="{{ trans('global.delete') }}"></i>
                                         </button>
                                     @endcan
                                 </div>
                             </td>
                         </tr>
-                        @empty
+                    @empty
                         <tr>
                             <td colspan="10">No entries found.</td>
                         </tr>
@@ -112,7 +121,7 @@
 
     <div class="card-body">
         <div class="pt-3">
-            @if($this->selectedCount)
+            @if ($this->selectedCount)
                 <p class="text-sm leading-5">
                     <span class="font-medium">
                         {{ $this->selectedCount }}
@@ -126,6 +135,6 @@
 </div>
 
 @push('scripts')
-  <x-delete />
+    <x-delete />
     <x-deleteAll />
 @endpush

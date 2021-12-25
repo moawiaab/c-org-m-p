@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\ProjectDepartment;
 
 use App\Models\ProjectDepartment;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public ProjectDepartment $projectDepartment;
 
     public function mount(ProjectDepartment $projectDepartment)
@@ -24,7 +26,7 @@ class Edit extends Component
         $this->validate();
 
         $this->projectDepartment->save();
-
+        $this->flash('success', trans('global.create_success'));
         return redirect()->route('admin.project-departments.index');
     }
 

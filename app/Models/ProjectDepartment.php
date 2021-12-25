@@ -23,7 +23,6 @@ class ProjectDepartment extends Model
         'user.name',
         'br.name',
     ];
-
     public $filterable = [
         'id',
         'name',

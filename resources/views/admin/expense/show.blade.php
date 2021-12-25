@@ -5,6 +5,11 @@
             <i class="fas fa-arrow-left"></i>
             {{ trans('global.back') }}
         </a>
+
+        <a class="btn btn-sm bg-gradient-success" href="{{ route('admin.expenses.index') }}">
+            <i class="fas fa-check"></i>
+            {{ trans('global.transition') }}
+        </a>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">

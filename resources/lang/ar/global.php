@@ -324,4 +324,5 @@ return [
     'messenger'                      => 'مراسل',
     'search'                         => 'ابحث هنا',
     'f_open'                         => 'هناك سنة مالية مفتوحة',
+    'transition'                     => 'Transition'
 ];

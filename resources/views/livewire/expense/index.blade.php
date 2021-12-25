@@ -44,10 +44,10 @@
                     <tr>
                         <th class="w-9">
                         </th>
-                        <th class="w-28">
+                        {{-- <th class="w-28">
                             {{ trans('cruds.expense.fields.id') }}
                             @include('components.table.sort', ['field' => 'id'])
-                        </th>
+                        </th> --}}
                         <th>
                             {{ trans('cruds.expense.fields.bud_name') }}
                             @include('components.table.sort', ['field' => 'bud_name.name'])
@@ -66,10 +66,10 @@
                             {{ trans('cruds.expense.fields.amount') }}
                             @include('components.table.sort', ['field' => 'amount'])
                         </th>
-                        <th>
+                        {{-- <th>
                             {{ trans('cruds.expense.fields.text_amount') }}
                             @include('components.table.sort', ['field' => 'text_amount'])
-                        </th>
+                        </th> --}}
                         <th>
                             {{ trans('cruds.expense.fields.beneficiary') }}
                             @include('components.table.sort', ['field' => 'beneficiary'])
@@ -83,9 +83,9 @@
                             {{ trans('cruds.expense.fields.stage') }}
                             @include('components.table.sort', ['field' => 'stage'])
                         </th>
-                        {{-- <th>
+                        <th>
                             {{ trans('cruds.expense.fields.invoice') }}
-                        </th> --}}
+                        </th>
                         <th>
                         </th>
                     </tr>
@@ -96,9 +96,9 @@
                             <td>
                                 <input type="checkbox" value="{{ $expense->id }}" wire:model="selected">
                             </td>
-                            <td>
+                            {{-- <td>
                                 {{ $expense->id }}
-                            </td>
+                            </td> --}}
                             <td>
                                 @if ($expense->budName)
                                     <span class="badge badge-relationship">{{ $expense->budName->name ?? '' }}</span>
@@ -119,24 +119,24 @@
                             <td>
                                 {{ $expense->amount }}
                             </td>
-                            <td>
+                            {{-- <td>
                                 {{ $expense->text_amount }}
-                            </td>
+                            </td> --}}
                             <td>
                                 {{ $expense->beneficiary }}
                             </td>
-                          
+
                             <td>
                                 {{ $expense->stage }}
                             </td>
-                            {{-- <td>
+                            <td>
                                 @foreach ($expense->invoice as $key => $entry)
                                     <a class="link-photo" href="{{ $entry['url'] }}">
                                         <img src="{{ $entry['thumbnail'] }}" alt="{{ $entry['name'] }}"
                                             title="{{ $entry['name'] }}">
                                     </a>
                                 @endforeach
-                            </td> --}}
+                            </td>
                             <td>
                                 <div class="flex justify-end">
                                     @can('expense_show')
@@ -145,17 +145,32 @@
                                         </a>
                                     @endcan
                                     @can('expense_edit')
-                                        <a class="btn btn-sm mr-2" href="{{ route('admin.expenses.edit', $expense) }}">
-                                            <i class="far fa-edit text-success" title="{{ trans('global.edit') }}"></i>
-                                        </a>
+                                        @if (auth()->user()->status === 1 || (auth()->id() === $expense->user_id && $expense->stage == 'New') || (auth()->user()->status === 2 && $expense->stage == 'Executive') || (auth()->user()->status === 3 && $expense->stage == 'Financial') || (auth()->user()->status === 4 && $expense->stage == 'New'))
+                                            <a class="btn btn-sm mr-2"
+                                                href="{{ route('admin.expenses.edit', $expense) }}">
+                                                <i class="far fa-edit text-success"
+                                                    title="{{ trans('global.edit') }}"></i>
+                                            </a>
+                                        @endif
+
                                     @endcan
                                     @can('expense_delete')
-                                        <button class="btn btn-sm mr-2" type="button"
-                                            wire:click="deleteConfirm( {{ $expense->id }})" wire:loading.attr="disabled">
-                                            <i class="far fa-trash-alt text-danger"
-                                                title="{{ trans('global.delete') }}"></i>
-                                        </button>
+                                        @if (auth()->user()->status === 1 || (auth()->id() === $expense->user_id && $expense->stage == 'New') || (auth()->user()->status === 2 && $expense->stage == 'Executive') || (auth()->user()->status === 3 && $expense->stage == 'Financial') || (auth()->user()->status === 4 && $expense->stage == 'New'))
+
+                                            <button class="btn btn-sm mr-2" type="button"
+                                                wire:click="deleteConfirm( {{ $expense->id }})"
+                                                wire:loading.attr="disabled">
+                                                <i class="far fa-trash-alt text-danger"
+                                                    title="{{ trans('global.delete') }}"></i>
+                                            </button>
+                                        @endif
                                     @endcan
+                                    @if (auth()->user()->status === 1 || (auth()->user()->status === 2 && $expense->stage == 'Executive') || (auth()->user()->status === 3 && $expense->stage == 'Financial') || (auth()->user()->status === 4 && $expense->stage == 'New'))
+                                        <button class="btn btn-sm mr-2"
+                                            wire:click="$emit('postAdded', {{ $expense }})">
+                                            <i class="fas fa-check text-success"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -182,9 +197,131 @@
             {{ $expenses->links() }}
         </div>
     </div>
+
+
+
+    <form wire:submit.prevent="submit" class="pt-3">
+        <div class="modal fade" id="modal-xl" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Extra Large Modal</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row {{ $errors->has('expense.bud_name_id') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2"
+                                for="budget">{{ trans('cruds.expense.fields.budget') }}</label>
+                            <div class="col-sm-10">
+                                <x-select-list class="form-control" id="budget" name="budget"
+                                    :options="$this->listsForFields['budget']" wire:model="expense.bud_name_id"
+                                    disabled />
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.bud_name_id') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.budget_helper') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row {{ $errors->has('expense.amount') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2"
+                                for="amount">{{ trans('cruds.expense.fields.amount') }}</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="number" name="amount" id="amount"
+                                    wire:model.defer="expense.amount" @if ($expense->stage != 'new') disabled @endif step="0.01">
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.amount') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.amount_helper') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row {{ $errors->has('expense.text_amount') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2 required"
+                                for="text_amount">{{ trans('cruds.expense.fields.text_amount') }}</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="text_amount" id="text_amount" required
+                                    wire:model.defer="expense.text_amount">
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.text_amount') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.text_amount_helper') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row {{ $errors->has('expense.beneficiary') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2 required"
+                                for="beneficiary">{{ trans('cruds.expense.fields.beneficiary') }}</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="beneficiary" id="beneficiary" required
+                                    wire:model.defer="expense.beneficiary" @if ($expense->stage != 'new') disabled @endif>
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.beneficiary') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.beneficiary_helper') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row {{ $errors->has('expense.details') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2 required"
+                                for="details">{{ trans('cruds.expense.fields.details') }}</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="details" id="details" required
+                                    wire:model.defer="expense.details" rows="4" @if ($expense->stage != 'new') disabled @endif></textarea>
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.details') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.details_helper') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row {{ $errors->has('expense.feeding') ? 'invalid' : '' }}">
+                            <label class="control-label col-sm-2"
+                                for="feeding">{{ trans('cruds.expense.fields.feeding') }}</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="feeding" id="feeding"
+                                    wire:model.defer="expense.feeding" rows="4"></textarea>
+                                <div class="validation-message">
+                                    {{ $errors->first('expense.feeding') }}
+                                </div>
+                                <div class="help-block">
+                                    {{ trans('cruds.expense.fields.feeding_helper') }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default"
+                            data-dismiss="modal">{{ trans('global.close') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ trans('global.save') }}</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </form>
 </div>
 
 @push('scripts')
     <x-delete />
     <x-deleteAll />
+    <script>
+        window.addEventListener('openModel', event => {
+            event.detail.type ?
+                $('#modal-xl').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                }) : $('#modal-xl').modal('hide');
+        });
+    </script>
 @endpush

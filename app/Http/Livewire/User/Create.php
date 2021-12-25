@@ -41,6 +41,7 @@ class Create extends Component
     public function mount(User $user)
     {
         $this->user = $user;
+        $this->user->br_id = auth()->user()->br_id;
         $this->initListsForFields();
     }
 

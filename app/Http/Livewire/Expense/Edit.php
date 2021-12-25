@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Expense;
 
+use App\Models\Branch;
 use App\Models\Budget;
 use App\Models\BudgetName;
 use App\Models\Expense;
@@ -54,7 +55,6 @@ class Edit extends Component
     public function submit()
     {
         $this->validate();
-
         $this->expense->save();
         $this->syncMedia();
 
@@ -65,7 +65,7 @@ class Edit extends Component
     {
         collect($this->mediaCollections)->flatten(1)
             ->each(fn ($item) => Media::where('uuid', $item['uuid'])
-            ->update(['model_id' => $this->expense->id]));
+                ->update(['model_id' => $this->expense->id]));
 
         Media::whereIn('uuid', $this->mediaToRemove)->delete();
     }
@@ -78,14 +78,9 @@ class Edit extends Component
                 'exists:budget_names,id',
                 'nullable',
             ],
-            'expense.budget_id' => [
-                'integer',
-                'exists:budgets,id',
-                'nullable',
-            ],
             'expense.amount' => [
                 'numeric',
-                'nullable',
+                'required',
             ],
             'expense.text_amount' => [
                 'string',
@@ -116,7 +111,8 @@ class Edit extends Component
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['bud_name'] = BudgetName::pluck('name', 'id')->toArray();
-        $this->listsForFields['budget']   = Budget::pluck('amount', 'id')->toArray();
+        $this->listsForFields['budget']   = Budget::select('budgets.id as id', 'budget_names.name as name')
+        ->join('budget_names', 'budget_names.id','=', 'budgets.budget_id')->where('budgets.br_id', auth()->user()->br_id)->pluck('name', 'id')->toArray();
+        // $this->listsForFields['bud_name'] = BudgetName::pluck('name', 'id')->toArray();
     }
 }

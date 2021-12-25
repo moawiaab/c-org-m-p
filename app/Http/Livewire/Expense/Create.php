@@ -54,7 +54,7 @@ class Create extends Component
         $this->expense->user_id        = auth()->id();
         $this->expense->br_id          = auth()->user()->br_id;
         $this->expense->bud_name_id    = $bud->budget_id;
-        // $this->expense->stage          = 'New';
+        $this->expense->stage          = 'New';
 
 
         $this->expense->save();
@@ -84,7 +84,7 @@ class Create extends Component
             'expense.budget_id' => [
                 'integer',
                 'exists:budgets,id',
-                'nullable',
+                'required',
             ],
             'expense.amount' => [
                 'numeric',

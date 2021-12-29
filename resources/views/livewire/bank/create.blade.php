@@ -40,26 +40,6 @@
             {{ trans('cruds.bank.fields.amount_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('bank.amount_in') ? 'invalid' : '' }}">
-        <label class="form-label" for="amount_in">{{ trans('cruds.bank.fields.amount_in') }}</label>
-        <input class="form-control" type="number" name="amount_in" id="amount_in" wire:model.defer="bank.amount_in" step="0.01">
-        <div class="validation-message">
-            {{ $errors->first('bank.amount_in') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.bank.fields.amount_in_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('bank.amount_out') ? 'invalid' : '' }}">
-        <label class="form-label" for="amount_out">{{ trans('cruds.bank.fields.amount_out') }}</label>
-        <input class="form-control" type="number" name="amount_out" id="amount_out" wire:model.defer="bank.amount_out" step="0.01">
-        <div class="validation-message">
-            {{ $errors->first('bank.amount_out') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.bank.fields.amount_out_helper') }}
-        </div>
-    </div>
 
     <div class="form-group">
        <button class="btn btn-sm bg-gradient-info mr-2" type="submit">

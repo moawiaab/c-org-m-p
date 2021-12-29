@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Bank;
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
 use App\Models\Bank;
+use App\Models\Branch;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -74,7 +75,12 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ]);
+        ])->when(auth()->user()->br_id === 1, function ($q) {
+            $q->whereIn('br_id', Branch::where('status', 1)->pluck('id'));
+        })->when(auth()->user()->br_id != 1, function ($q) {
+            $q->where('br_id', auth()->user()->br_id);
+        });
+
 
         $banks = $query->paginate($this->perPage);
 

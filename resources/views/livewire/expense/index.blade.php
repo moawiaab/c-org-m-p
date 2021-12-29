@@ -165,11 +165,22 @@
                                             </button>
                                         @endif
                                     @endcan
-                                    @if (auth()->user()->status === 1 || (auth()->user()->status === 2 && $expense->stage == 'Executive') || (auth()->user()->status === 3 && $expense->stage == 'Financial') || (auth()->user()->status === 4 && $expense->stage == 'New'))
+                                    @if (
+                                    (auth()->user()->status === 1 
+                                    || (auth()->user()->status === 2 && $expense->stage == 'Executive') 
+                                    || (auth()->user()->status === 3 && $expense->stage == 'Financial') 
+                                    || (auth()->user()->status === 4 && $expense->stage == 'New')
+                                    ) && ($expense->stage != 'End'))
                                         <button class="btn btn-sm mr-2"
                                             wire:click="$emit('postAdded', {{ $expense }})">
                                             <i class="fas fa-check text-success"></i>
                                         </button>
+                                    @endif
+                                    @if ((auth()->user()->status === 1 || auth()->user()->status === 4) && $expense->stage == 'End')
+                                    <button class="btn btn-sm mr-2"
+                                    wire:click="$emit('postAdded', {{ $expense }})">
+                                    <i class="fas fa-print text-success"></i>
+                                </button>
                                     @endif
                                 </div>
                             </td>

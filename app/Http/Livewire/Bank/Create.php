@@ -4,9 +4,11 @@ namespace App\Http\Livewire\Bank;
 
 use App\Models\Bank;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public Bank $bank;
 
     public function mount(Bank $bank)
@@ -25,9 +27,14 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
+        $this->bank->user_id    = auth()->id();
+        $this->bank->br_id      = auth()->user()->br_id;
+        $this->bank->amount_in  = 0;
+        $this->bank->amount_out = 0;
+        $this->bank->status     = 1;
 
         $this->bank->save();
-
+        $this->flash('success',trans('global.create_success'));
         return redirect()->route('admin.banks.index');
     }
 
@@ -50,14 +57,7 @@ class Create extends Component
                 'numeric',
                 'nullable',
             ],
-            'bank.amount_in' => [
-                'numeric',
-                'nullable',
-            ],
-            'bank.amount_out' => [
-                'numeric',
-                'nullable',
-            ],
+
         ];
     }
 }

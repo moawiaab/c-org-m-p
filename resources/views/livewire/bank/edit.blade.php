@@ -30,36 +30,7 @@
             {{ trans('cruds.bank.fields.number_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('bank.amount') ? 'invalid' : '' }}">
-        <label class="form-label" for="amount">{{ trans('cruds.bank.fields.amount') }}</label>
-        <input class="form-control" type="number" name="amount" id="amount" wire:model.defer="bank.amount" step="0.01">
-        <div class="validation-message">
-            {{ $errors->first('bank.amount') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.bank.fields.amount_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('bank.amount_in') ? 'invalid' : '' }}">
-        <label class="form-label" for="amount_in">{{ trans('cruds.bank.fields.amount_in') }}</label>
-        <input class="form-control" type="number" name="amount_in" id="amount_in" wire:model.defer="bank.amount_in" step="0.01">
-        <div class="validation-message">
-            {{ $errors->first('bank.amount_in') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.bank.fields.amount_in_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('bank.amount_out') ? 'invalid' : '' }}">
-        <label class="form-label" for="amount_out">{{ trans('cruds.bank.fields.amount_out') }}</label>
-        <input class="form-control" type="number" name="amount_out" id="amount_out" wire:model.defer="bank.amount_out" step="0.01">
-        <div class="validation-message">
-            {{ $errors->first('bank.amount_out') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.bank.fields.amount_out_helper') }}
-        </div>
-    </div>
+
     <div class="form-group {{ $errors->has('bank.status') ? 'invalid' : '' }}">
         <label class="form-label">{{ trans('cruds.bank.fields.status') }}</label>
         @foreach($this->listsForFields['status'] as $key => $value)

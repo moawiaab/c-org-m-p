@@ -4,9 +4,11 @@ namespace App\Http\Livewire\Bank;
 
 use App\Models\Bank;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public Bank $bank;
 
     public array $listsForFields = [];
@@ -27,7 +29,7 @@ class Edit extends Component
         $this->validate();
 
         $this->bank->save();
-
+        $this->flash('success', trans('global.update_success'));
         return redirect()->route('admin.banks.index');
     }
 
@@ -44,18 +46,6 @@ class Edit extends Component
             ],
             'bank.number' => [
                 'string',
-                'nullable',
-            ],
-            'bank.amount' => [
-                'numeric',
-                'nullable',
-            ],
-            'bank.amount_in' => [
-                'numeric',
-                'nullable',
-            ],
-            'bank.amount_out' => [
-                'numeric',
                 'nullable',
             ],
             'bank.status' => [

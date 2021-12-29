@@ -1,19 +1,23 @@
 @extends('layouts.admin')
+@section('header')
+    <div class="col-sm-6">
+        <a class="btn btn-sm bg-gradient-info" href="{{ route('admin.banks.index') }}">
+            <i class="fas fa-arrow-left"></i>
+            {{ trans('global.back') }}
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">{{ trans('global.view') }}
+                {{ trans('cruds.bank.title_singular') }}</li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('admin.banks.index') }}">{{ trans('cruds.bank.title_singular') }}
+                    {{ trans('global.list') }}</a></li>
+            <li class="breadcrumb-item active"><a href="/"> {{ trans('global.dashboard') }}</a></li>
+        </ol>
+    </div>
+@endsection
 @section('content')
-<div class="row">
-    <div class="card bg-blueGray-100">
-        <div class="card-header">
-            <div class="card-header-container">
-                <h6 class="card-title">
-                    <i class="far fa-eye text-info" title="{{ trans('global.view') }}"></i>
-                    {{ trans('cruds.bank.title_singular') }}:
-                    {{ trans('cruds.bank.fields.id') }}
-                    {{ $bank->id }}
-                </h6>
-            </div>
-        </div>
-
-        <div class="card-body">
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
@@ -122,15 +126,13 @@
             </div>
             <div class="form-group">
                 @can('bank_edit')
-                    <a href="{{ route('admin.banks.edit', $bank) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.banks.edit', $bank) }}" class="btn btn-sm mr-2">
                         <i class="far fa-edit text-success" title="{{ trans('global.edit') }}"></i>
                     </a>
                 @endcan
-                <a href="{{ route('admin.banks.index') }}" class="btn btn-secondary">
+                <a class="btn btn-sm bg-gradient-info" href="{{ route('admin.banks.index') }}">
+                    <i class="fas fa-arrow-left"></i>
                     {{ trans('global.back') }}
                 </a>
             </div>
-        </div>
-    </div>
-</div>
 @endsection

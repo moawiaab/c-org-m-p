@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\WithCSVImport;
+use App\Models\Branch;
+use App\Models\Budget;
 use App\Models\Expense;
+use App\Models\Shek;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -60,9 +63,9 @@ class ExpenseController extends Controller
         if (request()->has('max_width') || request()->has('max_height')) {
             $this->validate(request(), [
                 'file' => sprintf(
-                'image|dimensions:max_width=%s,max_height=%s',
-                request()->input('max_width', 100000),
-                request()->input('max_height', 100000)
+                    'image|dimensions:max_width=%s,max_height=%s',
+                    request()->input('max_width', 100000),
+                    request()->input('max_height', 100000)
                 ),
             ]);
         }
@@ -74,5 +77,15 @@ class ExpenseController extends Controller
         $media->wasRecentlyCreated = true;
 
         return response()->json(compact('media'), Response::HTTP_CREATED);
+    }
+
+    public function print(Expense $expense)
+    {
+        $expense->load('budName', 'budget', 'user', 'administrative', 'executive', 'financial');
+        $shek = Shek::with('bank')->where('expense_id', $expense->id)->first();
+
+        $img = Branch::find(auth()->user()->br_id)->first()->logo->first();
+        // dd($expense, $shek);
+        return view('admin.expense.account', compact('expense', 'shek', 'img'));
     }
 }

@@ -77,6 +77,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('bank-amounts', BankAmountController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Expense
+    Route::get('expenses/print/{expense}', [ExpenseController::class, 'print'])->name('expenses.print');
     Route::post('expenses/media', [ExpenseController::class, 'storeMedia'])->name('expenses.storeMedia');
     Route::post('expenses/csv', [ExpenseController::class, 'csvStore'])->name('expenses.csv.store');
     Route::put('expenses/csv', [ExpenseController::class, 'csvUpdate'])->name('expenses.csv.update');

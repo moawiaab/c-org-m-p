@@ -4,9 +4,11 @@ namespace App\Http\Livewire\Expense;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
+use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Budget;
 use App\Models\Expense;
+use App\Models\Shek;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -21,12 +23,27 @@ class Index extends Component
     public int $perPage;
 
     public array $orderable;
+    public $budName;
+    public $user;
+    public $brach;
+    public $amount;
+    public $amount_text;
+    public $stage = '';
+    public $beneficiary;
+    public $administrative;
+    public $executive;
+    public $financial;
+    public $created_at;
+    public $bank_id;
+    public $entry_date;
+    public $shek_number;
+    public Shek $shek;
 
     public string $search = '';
     public Expense $expense;
     public array $listsForFields = [];
     public array $selected = [];
-    public $listeners = ['delete', 'postAdded'];
+    public $listeners = ['delete', 'postAdded', 'endExpens'];
 
     public array $paginationOptions;
 
@@ -46,9 +63,30 @@ class Index extends Component
 
     public function postAdded(Expense $expense)
     {
-        $this->expense  = $expense;
+        $this->expense  = $expense->load('budName', 'user', 'br', 'administrative', 'executive', 'financial');
+        $this->budName        = $this->expense->budName->name;
+        $this->administrative = $this->expense->administrative ? $this->expense->administrative->name : '';
+        $this->executive      = $this->expense->executive ? $this->expense->executive->name : '';
+        $this->financial      = $this->expense->financial ? $this->expense->financial->name : '';
+        $this->user           = $this->expense->user->name;
+        $this->brach          = $this->expense->br->name;
+        $this->amount         = $this->expense->amount;
+        $this->amount_text    = $this->expense->text_amount;
+        $this->stage          = $this->expense->stage;
+        $this->beneficiary    = $this->expense->beneficiary;
+        $this->created_at    = $this->expense->created_at->diffForHumans();
+        if ($this->stage === 'End') {
+            $this->shek = new Shek();
+        }
+        // dd( $this->expense->budName->name);
         $this->dispatchBrowserEvent('openModel', ['type' => true]);
     }
+
+    // public function endExpens(Expense $expense)
+    // {
+    //     $this->expense  = $expense;
+    //     $this->dispatchBrowserEvent('openModel', ['type' => true]);
+    // }
 
     public function getSelectedCountProperty()
     {
@@ -152,28 +190,48 @@ class Index extends Component
         );
     }
 
-    protected function initListsForFields(): void
+    public function submitamount()
     {
-        $this->listsForFields['budget']   = Budget::select('budgets.id as id', 'budget_names.name as name')
-            ->join('budget_names', 'budget_names.id', '=', 'budgets.budget_id')->where('budgets.br_id', auth()->user()->br_id)->pluck('name', 'id')->toArray();
+        dd($this->expense);
     }
-
     public function submit()
     {
         $this->validate();
+
+        dd($this->bank_id);
         // Executive
         // Financial
         // New
         // End
-        if ($this->expense->stage == 'New') {
+        if ($this->expense->stage === 'New') {
             $this->expense->stage          = 'Executive';
             $this->expense->administrative_id = auth()->id();
-        } elseif ($this->expense->stage == 'Executive') {
+        } elseif ($this->expense->stage === 'Executive') {
             $this->expense->stage          = 'Financial';
             $this->expense->executive_id      = auth()->id();
-        } elseif ($this->expense->stage == 'Financial') {
+        } elseif ($this->expense->stage === 'Financial') {
+            //TODO: teg Amount from Expense
             $this->expense->stage          = 'End';
             $this->expense->financial_id      = auth()->id();
+        } elseif ($this->expense->stage === 'End') {
+            $this->expense->stage          = 'Finsh';
+            $this->expense->accountant_id      = auth()->id();
+            if ($this->expense->save()) {
+                $this->shek->expense_id   = $this->expense->id;
+                $this->shek->type         = 1;
+                $this->shek->amount       = $this->expense->amount;
+                $this->shek->bank_id      = $this->bank_id;
+                $this->shek->user_id      = auth()->id();
+                $this->shek->br_id        = auth()->user()->br_id;
+                $this->shek->shek_number  = $this->shek_number;
+                $this->shek->entry_date   = $this->entry_date;
+                $this->shek->amount_text  = $this->expense->text_amount;
+                $this->shek->status       = 1;
+                if ($this->shek->save()) {
+                    //TODO: check For teg amount now or after shek
+                    return redirect()->route('admin.expenses.print', $this->expense->id);
+                }
+            }
         }
         $this->expense->save();
         $this->dispatchBrowserEvent('openModel', ['type' => false]);
@@ -181,23 +239,6 @@ class Index extends Component
     protected function rules(): array
     {
         return [
-            'expense.bud_name_id' => [
-                'integer',
-                'exists:budget_names,id',
-                'nullable',
-            ],
-            'expense.text_amount' => [
-                'string',
-                'required',
-            ],
-            'expense.amount' => [
-                'string',
-                'required',
-            ],
-            'expense.beneficiary' => [
-                'string',
-                'required',
-            ],
             'expense.details' => [
                 'string',
                 'required',
@@ -206,6 +247,20 @@ class Index extends Component
                 'string',
                 'nullable',
             ],
+            // 'shek.shek_number' => [
+            //     'string',
+            //     'required',
+            // ],
+            // 'shek.entry_date' => [
+            //     'required',
+            //     'date_format:' . config('project.date_format'),
+            // ],
+
         ];
+    }
+
+    protected function initListsForFields(): void
+    {
+        $this->listsForFields['bank']    = Bank::pluck('name', 'id')->toArray();
     }
 }

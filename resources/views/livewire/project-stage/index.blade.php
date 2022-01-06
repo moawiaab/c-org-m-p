@@ -53,37 +53,17 @@
                             {{ trans('cruds.projectStage.fields.details') }}
                             @include('components.table.sort', ['field' => 'details'])
                         </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.amount') }}
-                            @include('components.table.sort', ['field' => 'amount'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.start_date') }}
-                            @include('components.table.sort', ['field' => 'start_date'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.end_date') }}
-                            @include('components.table.sort', ['field' => 'end_date'])
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.projectStage.fields.status') }}
                             @include('components.table.sort', ['field' => 'status'])
                         </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.project') }}
-                            @include('components.table.sort', ['field' => 'project.name'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.user') }}
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.projectStage.fields.br') }}
                             @include('components.table.sort', ['field' => 'br.name'])
                         </th>
-                        <th>
-                            {{ trans('cruds.projectStage.fields.user_created') }}
-                            @include('components.table.sort', ['field' => 'user_created.name'])
-                        </th>
+                      
                         <th>
                         </th>
                     </tr>
@@ -103,38 +83,17 @@
                             <td>
                                 {{ $projectStage->details }}
                             </td>
-                            <td>
-                                {{ $projectStage->amount }}
-                            </td>
-                            <td>
-                                {{ $projectStage->start_date }}
-                            </td>
-                            <td>
-                                {{ $projectStage->end_date }}
-                            </td>
+                           
                             <td>
                                 {{ $projectStage->status_label }}
                             </td>
-                            <td>
-                                @if($projectStage->project)
-                                    <span class="badge badge-relationship">{{ $projectStage->project->name ?? '' }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                @foreach($projectStage->user as $key => $entry)
-                                    <span class="badge badge-relationship">{{ $entry->name }}</span>
-                                @endforeach
-                            </td>
+                           
                             <td>
                                 @if($projectStage->br)
                                     <span class="badge badge-relationship">{{ $projectStage->br->name ?? '' }}</span>
                                 @endif
                             </td>
-                            <td>
-                                @if($projectStage->userCreated)
-                                    <span class="badge badge-relationship">{{ $projectStage->userCreated->name ?? '' }}</span>
-                                @endif
-                            </td>
+                           
                             <td>
                                 <div class="flex justify-end">
                                     @can('project_stage_show')

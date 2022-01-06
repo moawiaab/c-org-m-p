@@ -6,10 +6,12 @@ use App\Models\Branch;
 use App\Models\Project;
 use App\Models\ProjectStage;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public array $user = [];
 
     public array $listsForFields = [];
@@ -19,8 +21,6 @@ class Create extends Component
     public function mount(ProjectStage $projectStage)
     {
         $this->projectStage         = $projectStage;
-        $this->projectStage->amount = '0';
-        $this->initListsForFields();
     }
 
     public function render()
@@ -32,8 +32,10 @@ class Create extends Component
     {
         $this->validate();
 
+        $this->projectStage->br_id  = auth()->user()->br_id;
+        $this->projectStage->status = 1;
         $this->projectStage->save();
-        $this->projectStage->user()->sync($this->user);
+        $this->flash('success', trans('global.create_success'));
 
         return redirect()->route('admin.project-stages.index');
     }
@@ -43,59 +45,18 @@ class Create extends Component
         return [
             'projectStage.name' => [
                 'string',
-                'nullable',
+                'required',
             ],
             'projectStage.details' => [
                 'string',
-                'nullable',
-            ],
-            'projectStage.amount' => [
-                'numeric',
-                'nullable',
-            ],
-            'projectStage.start_date' => [
-                'nullable',
-                'date_format:' . config('project.date_format'),
-            ],
-            'projectStage.end_date' => [
-                'nullable',
-                'date_format:' . config('project.date_format'),
-            ],
-            'projectStage.status' => [
-                'nullable',
-                'in:' . implode(',', array_keys($this->listsForFields['status'])),
-            ],
-            'projectStage.project_id' => [
-                'integer',
-                'exists:projects,id',
-                'nullable',
-            ],
-            'user' => [
-                'array',
-            ],
-            'user.*.id' => [
-                'integer',
-                'exists:users,id',
+                'required',
             ],
             'projectStage.br_id' => [
                 'integer',
                 'exists:branches,id',
                 'nullable',
             ],
-            'projectStage.user_created_id' => [
-                'integer',
-                'exists:users,id',
-                'nullable',
-            ],
         ];
     }
 
-    protected function initListsForFields(): void
-    {
-        $this->listsForFields['status']       = $this->projectStage::STATUS_RADIO;
-        $this->listsForFields['project']      = Project::pluck('name', 'id')->toArray();
-        $this->listsForFields['user']         = User::pluck('name', 'id')->toArray();
-        $this->listsForFields['br']           = Branch::pluck('name', 'id')->toArray();
-        $this->listsForFields['user_created'] = User::pluck('name', 'id')->toArray();
-    }
 }

@@ -30,8 +30,8 @@
     <div class="form-group {{ $errors->has('budget.status') ? 'invalid' : '' }}">
         <label class="control-label col-sm-2">{{ trans('cruds.budget.fields.status') }}</label>
         @foreach ($this->listsForFields['status'] as $key => $value)
-            <label class="radio-label"><input type="radio" name="status" wire:model="budget.status"
-                    value="{{ $key }}">{{ $value }}</label>
+        <label class="radio-label"><input type="radio" name="status" wire:model="budget.status" value="{{ $key }}">{{
+            $value }}</label>
         @endforeach
         <div class="validation-message">
             {{ $errors->first('budget.status') }}
@@ -42,11 +42,14 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-sm bg-gradient-info mr-2" type="submit">
-            <i class="far fa-save mr-2 text-white"> {{ trans('global.save') }} </i>
-        </button>
-        <a href="{{ route('admin.budgets.index') }}" class="btn btn-sm bg-gradient-danger">
-            <i class="fas fa-times  mr-2 text-white"> {{ trans('global.cancel') }} </i>
-        </a>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <button class="btn btn-sm bg-gradient-info mr-2" type="submit">
+                <i class="far fa-save mr-2 text-white"> {{ trans('global.save') }} </i>
+            </button>
+            <a href="{{ route('admin.budgets.index') }}" class="btn btn-sm bg-gradient-danger">
+                <i class="fas fa-times  mr-2 text-white"> {{ trans('global.cancel') }} </i>
+            </a>
+        </div>
     </div>
 </form>

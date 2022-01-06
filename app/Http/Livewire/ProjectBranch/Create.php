@@ -6,10 +6,12 @@ use App\Models\Branch;
 use App\Models\ProjectBranch;
 use App\Models\ProjectDepartment;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public array $listsForFields = [];
 
     public ProjectBranch $projectBranch;
@@ -28,9 +30,11 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
+        $this->projectBranch->user_id        = auth()->id();
+        $this->projectBranch->br_id          = auth()->user()->br_id;
 
         $this->projectBranch->save();
-
+        $this->flash('success', trans('global.create_success'));
         return redirect()->route('admin.project-branches.index');
     }
 

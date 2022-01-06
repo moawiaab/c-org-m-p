@@ -48,7 +48,7 @@
         @endif
 
         {{-- User icon and menu --}}
-        {{--
+        
         <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
             <a class="text-blueGray-500 block" href="#pablo" onclick="openDropdown(event,'user-dropdown')">
                 <div class="items-center flex">
@@ -61,6 +61,6 @@
                 <a href="#pablo" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Seprated link</a>
             </div>
         </ul>
-         --}}
+        
     </div>
 </nav>

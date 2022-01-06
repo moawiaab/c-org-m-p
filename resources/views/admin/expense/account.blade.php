@@ -179,6 +179,8 @@
 
 @push('scripts')
 <script>
-   //TODO: auto print page
+    
+    // window.onload = (event) => this.print();
+    // window.addEventListener('afterprint', (event) =>  history.back() );
 </script>
 @endpush

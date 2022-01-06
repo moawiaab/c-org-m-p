@@ -1,19 +1,22 @@
 @extends('layouts.admin')
-@section('content')
-<div class="row">
-    <div class="card bg-blueGray-100">
-        <div class="card-header">
-            <div class="card-header-container">
-                <h6 class="card-title">
-                    {{ trans('global.create') }}
-                    {{ trans('cruds.project.title_singular') }}
-                </h6>
-            </div>
-        </div>
-
-        <div class="card-body">
-            @livewire('project.create')
-        </div>
-    </div>
+@section('header')
+<div class="col-sm-6">
+    <a class="btn btn-sm bg-gradient-info" href="{{ route('admin.projects.index') }}">
+        <i class="fas fa-arrow-left"></i>
+        {{ trans('global.back') }}
+    </a>
 </div>
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item active">{{ trans('global.create') }}
+            {{ trans('cruds.project.title_singular') }}</li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.projects.index') }}">{{
+                trans('cruds.project.title_singular') }}
+                {{ trans('global.list') }}</a></li>
+        <li class="breadcrumb-item active"><a href="/"> {{ trans('global.dashboard') }}</a></li>
+    </ol>
+</div>
+@endsection
+@section('content')
+@livewire('project.create')
 @endsection

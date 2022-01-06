@@ -145,10 +145,13 @@
                                 </a>
                                 @endcan
                                 @can('expense_edit')
-                                @if (auth()->user()->status === 1 || (auth()->id() === $expense->user_id &&
-                                $expense->stage == 'New') || (auth()->user()->status === 2 && $expense->stage ==
-                                'Executive') || (auth()->user()->status === 3 && $expense->stage == 'Financial') ||
-                                (auth()->user()->status === 4 && $expense->stage == 'New'))
+                                @if (auth()->user()->status === 1 && ($expense->stage === 'New' 
+                                || $expense->stage == 'Executive' 
+                                || $expense->stage == 'Financial')
+                                || (auth()->id() === $expense->user_id && $expense->stage === 'New') 
+                                || (auth()->user()->status === 2 && $expense->stage === 'Executive') 
+                                || (auth()->user()->status === 3 && $expense->stage === 'Financial') 
+                                || (auth()->user()->status === 4 && $expense->stage === 'New'))
                                 <a class="btn btn-sm mr-2" href="{{ route('admin.expenses.edit', $expense) }}">
                                     <i class="far fa-edit text-success" title="{{ trans('global.edit') }}"></i>
                                 </a>
@@ -156,7 +159,9 @@
 
                                 @endcan
                                 @can('expense_delete')
-                                @if (auth()->user()->status === 1
+                                @if (auth()->user()->status === 1 && ($expense->stage === 'New' 
+                                || $expense->stage == 'Executive' 
+                                || $expense->stage == 'Financial')
                                 || (auth()->id() === $expense->user_id && $expense->stage == 'New')
                                 || (auth()->user()->status === 2 && $expense->stage == 'Executive')
                                 || (auth()->user()->status === 3 && $expense->stage == 'Financial')
@@ -169,7 +174,9 @@
                                 @endif
                                 @endcan
                                 @if (
-                                (auth()->user()->status === 1
+                                (auth()->user()->status === 1  && ($expense->stage === 'New' 
+                                || $expense->stage == 'Executive' 
+                                || $expense->stage == 'Financial')
                                 || (auth()->user()->status === 2 && $expense->stage == 'Executive')
                                 || (auth()->user()->status === 3 && $expense->stage == 'Financial')
                                 || (auth()->user()->status === 4 && $expense->stage == 'New')

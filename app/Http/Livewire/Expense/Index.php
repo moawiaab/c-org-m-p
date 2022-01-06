@@ -198,7 +198,7 @@ class Index extends Component
     {
         $this->validate();
 
-        dd($this->bank_id);
+        // dd($this->bank_id);
         // Executive
         // Financial
         // New
@@ -210,11 +210,14 @@ class Index extends Component
             $this->expense->stage          = 'Financial';
             $this->expense->executive_id      = auth()->id();
         } elseif ($this->expense->stage === 'Financial') {
-            //TODO: teg Amount from Expense
+            //TODO: check Amount befor teg From Expense in Setting 
             $this->expense->stage          = 'End';
+            $bug = Budget::find($this->expense->budget_id);
+            $bug->expense_amount += $this->expense->amount;
+            $bug->save();
             $this->expense->financial_id      = auth()->id();
         } elseif ($this->expense->stage === 'End') {
-            $this->expense->stage          = 'Finsh';
+            $this->expense->stage          = 'Finished';
             $this->expense->accountant_id      = auth()->id();
             if ($this->expense->save()) {
                 $this->shek->expense_id   = $this->expense->id;

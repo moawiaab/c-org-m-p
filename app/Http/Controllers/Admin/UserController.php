@@ -37,6 +37,7 @@ class UserController extends Controller
 
         $user->load('roles', 'br');
 
+        dd($user->avatar->first());
         return view('admin.user.show', compact('user'));
     }
 

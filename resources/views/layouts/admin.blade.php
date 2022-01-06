@@ -14,8 +14,8 @@
         href="{{ asset('admin-let/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-let/dist/css/adminlte.min.css') }}">
     @if (Config::get('app.locale') == 'ar')
-        <link rel="stylesheet" href="{{ asset('admin-let/dist/css/bootstrap.rtl.css') }}">
-        <link rel="stylesheet" href="{{ asset('admin-let/dist/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-let/dist/css/bootstrap.rtl.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-let/dist/css/custom.css') }}">
     @endif
 
     <title>{{ trans('panel.site_title') }}</title>
@@ -44,11 +44,24 @@
                 </section>
 
                 @if (session('status'))
-                    <x-alert message="{{ session('status') }}" variant="indigo" role="alert" />
+                <x-alert message="{{ session('status') }}" variant="indigo" role="alert" />
                 @endif
                 <!-- Main content -->
                 <section class="content">
-                    <div class="card card-outline card-secondary">
+                    <div class="card">
+                        {{-- <div class="card card-outline card-secondary"> --}}
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i></button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"
+                                    data-toggle="tooltip" title="Remove">
+                                    <i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
                         <div class="card-body">
                             @yield('content')
                         </div>
@@ -82,7 +95,7 @@
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script src="{{ asset('admin-let/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     @if (Config::get('app.locale') == 'ar')
-        <script src="{{ asset('admin-let/dist/js/bootstarp.rtl.js') }}"></script>
+    <script src="{{ asset('admin-let/dist/js/bootstarp.rtl.js') }}"></script>
     @endif
     <script src="{{ asset('admin-let/dist/js/adminlte.js') }}"></script>
     <script src="{{ asset('admin-let/dist/js/demo.js') }}"></script>

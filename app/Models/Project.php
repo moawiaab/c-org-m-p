@@ -15,6 +15,7 @@ class Project extends Model
     use SoftDeletes;
 
     public const STATUS_RADIO = [
+        '2' => 'New',
         '1' => 'Open',
         '0' => 'Close',
     ];
@@ -40,6 +41,8 @@ class Project extends Model
         'user.name',
         'country.name',
         'status',
+        'phases.name',
+        'partners.name',
     ];
 
     protected $dates = [
@@ -71,7 +74,7 @@ class Project extends Model
 
     public function projectBranch()
     {
-        return $this->belongsTo(ProjectBranch::class);
+        return $this->belongsTo(ProjectBranch::class, 'project_branch_id');
     }
 
     public function donor()
@@ -107,6 +110,16 @@ class Project extends Model
     public function getStatusLabelAttribute($value)
     {
         return static::STATUS_RADIO[$this->status] ?? null;
+    }
+
+    public function phases()
+    {
+        return $this->belongsToMany(ProjectStage::class);
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany(Branch::class, );
     }
 
     protected function serializeDate(DateTimeInterface $date)

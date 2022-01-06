@@ -1,5 +1,5 @@
 <form wire:submit.prevent="submit" class="pt-3">
-  
+
     <div class="form-group row {{ $errors->has('fiscalYear.date') ? 'invalid' : '' }}">
         <label class="control-label col-sm-2" for="date">{{ trans('cruds.fiscalYear.fields.date') }}</label>
         <div class="col-sm-10">
@@ -13,12 +13,15 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <button class="btn btn-sm bg-gradient-info mr-2" type="submit">
-            <i class="far fa-save mr-2 text-white"> {{ trans('global.save') }} </i>
-        </button>
-        <a href="{{ route('admin.fiscal-years.index') }}" class="btn btn-sm bg-gradient-danger">
-            <i class="fas fa-times  mr-2 text-white"> {{ trans('global.cancel') }} </i>
-        </a>
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <button class="btn btn-sm bg-gradient-info mr-2" type="submit">
+                <i class="far fa-save mr-2 text-white"> {{ trans('global.save') }} </i>
+            </button>
+            <a href="{{ route('admin.fiscal-years.index') }}" class="btn btn-sm bg-gradient-danger">
+                <i class="fas fa-times  mr-2 text-white"> {{ trans('global.cancel') }} </i>
+            </a>
+        </div>
     </div>
 </form>

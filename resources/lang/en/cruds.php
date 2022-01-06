@@ -515,6 +515,10 @@ return [
             'updated_at_helper'           => ' ',
             'deleted_at'                  => 'Deleted at',
             'deleted_at_helper'           => ' ',
+            'phases'                      => 'Phases',
+            'phases_helper'               => ' ',
+            'partners'                    => 'Partners',
+            'partners_helper'             => ' ',
         ],
     ],
     'projectStage' => [

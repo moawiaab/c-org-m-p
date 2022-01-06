@@ -25,7 +25,6 @@ class StageDetail extends Model implements HasMedia
         'stage.name',
         'details',
         'project.name',
-        'user.name',
     ];
 
     public $filterable = [
@@ -33,7 +32,7 @@ class StageDetail extends Model implements HasMedia
         'stage.name',
         'details',
         'project.name',
-        'user.name',
+        'users.name',
     ];
 
     protected $appends = [
@@ -93,9 +92,9 @@ class StageDetail extends Model implements HasMedia
         return $this->belongsTo(Project::class);
     }
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

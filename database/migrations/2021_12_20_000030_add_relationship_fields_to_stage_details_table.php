@@ -13,8 +13,6 @@ class AddRelationshipFieldsToStageDetailsTable extends Migration
             $table->foreign('stage_id', 'stage_fk_5616973')->references('id')->on('project_stages');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->foreign('project_id', 'project_fk_5616977')->references('id')->on('projects');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id', 'user_fk_5616978')->references('id')->on('users');
-        });
+         });
     }
 }

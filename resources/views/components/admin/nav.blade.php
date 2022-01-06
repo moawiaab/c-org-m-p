@@ -15,69 +15,93 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav @if (Config::get('app.locale') == 'ar') mr-auto-navbav @else ml-auto  @endif">
         @if (file_exists(app_path('Http/Livewire/LanguageSwitcher.php')))
-            <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
-                <livewire:language-switcher />
-            </ul>
+        <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
+            <livewire:language-switcher />
+        </ul>
         @endif
         <li class="inline-block relative">
             <a class="nav-link" onclick="openDropdown(event,'nav-notification-dropdown')">
                 <i class="fas fa-bell"></i>
                 @if ($new_alert_count = auth()->user()->alerts()->wherePivot('seen_at', null)->count())
-                    <span
-                        class="absolute -top-1 text-xs font-semibold inline-flex rounded-full h-5 min-w-5 text-white bg-indigo-600 leading-5 justify-center">
-                        <span class="px-1">{{ $new_alert_count }}</span>
-                    </span>
+                <span
+                    class="absolute -top-1 text-xs font-semibold inline-flex rounded-full h-5 min-w-5 text-white bg-indigo-600 leading-5 justify-center">
+                    <span class="px-1">{{ $new_alert_count }}</span>
+                </span>
                 @endif
             </a>
             <div id="nav-notification-dropdown" data-popper-placement="bottom-start"
                 class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48 hidden"
                 style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(617px, 58px);">
                 @forelse(auth()->user()->alerts()->latest()->take(10)->get() as $alert)
-                    @if ($alert->link)
-                        <a href="{{ $alert->link }}" target="_blank"
-                            class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 cursor-pointer {{ $alert->pivot->seen_at ? 'text-blueGray-400' : 'text-blueGray-700' }}">
-                            <i class="fas fa-link fa-fw mr-1"></i>
-                            {{ $alert->message }}
-                        </a>
-                    @else
-                        <a
-                            class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 cursor-pointer {{ $alert->pivot->seen_at ? 'text-blueGray-400' : 'text-blueGray-700' }}">
-                            <i class="fas fa-bell fa-fw mr-1"></i>
-                            {{ $alert->message }}
-                        </a>
-                    @endif
+                @if ($alert->link)
+                <a href="{{ $alert->link }}" target="_blank"
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 cursor-pointer {{ $alert->pivot->seen_at ? 'text-blueGray-400' : 'text-blueGray-700' }}">
+                    <i class="fas fa-link fa-fw mr-1"></i>
+                    {{ $alert->message }}
+                </a>
+                @else
+                <a
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 cursor-pointer {{ $alert->pivot->seen_at ? 'text-blueGray-400' : 'text-blueGray-700' }}">
+                    <i class="fas fa-bell fa-fw mr-1"></i>
+                    {{ $alert->message }}
+                </a>
+                @endif
                 @empty
-                    {{ __('global.no_alerts') }}
+                {{ __('global.no_alerts') }}
                 @endforelse
             </div>
         </li>
+        <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
+            <a class="text-blueGray-500 block" href="#pablo" onclick="openDropdown(event,'user-dropdown')">
+                <div class="items-center flex">
+                    <span
+                        class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"><img
+                            alt="..." class="w-full rounded-full align-middle border-none shadow-lg"
+                            src="{{ auth()->user()->avatar->first() ? auth()->user()->avatar->first()['thumbnail'] : asset('img/img_avatar.png')}}" /></span>
+                </div>
+            </a>
+            <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
+                id="user-dropdown">
+                <a href="#pablo"
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Action</a><a
+                    href="#pablo"
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Another
+                    action</a><a href="#pablo"
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Something
+                    else here</a>
+                <div class="h-0 my-2 border border-solid border-blueGray-100"></div>
+                <a href="#pablo"
+                    class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Seprated
+                    link</a>
+            </div>
+        </ul>
         <!-- Notifications Dropdown Menu -->
         {{-- <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="far fa-bell"></i>
-        <span class="badge badge-warning navbar-badge">15</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">15 Notifications</span>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-envelope mr-2"></i> 4 new messages
-          <span class="float-right text-muted text-sm">3 mins</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-users mr-2"></i> 8 friend requests
-          <span class="float-right text-muted text-sm">12 hours</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-file mr-2"></i> 3 new reports
-          <span class="float-right text-muted text-sm">2 days</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-      </div>
-    </li> --}}
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-bell"></i>
+                <span class="badge badge-warning navbar-badge">15</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-envelope mr-2"></i> 4 new messages
+                    <span class="float-right text-muted text-sm">3 mins</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-users mr-2"></i> 8 friend requests
+                    <span class="float-right text-muted text-sm">12 hours</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-file mr-2"></i> 3 new reports
+                    <span class="float-right text-muted text-sm">2 days</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            </div>
+        </li> --}}
 
         {{-- <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">

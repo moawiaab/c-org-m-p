@@ -12,9 +12,6 @@ class CreateProjectStagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->longText('details')->nullable();
-            $table->decimal('amount', 15, 2)->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();

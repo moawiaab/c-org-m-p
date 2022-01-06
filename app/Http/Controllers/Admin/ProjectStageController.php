@@ -43,7 +43,7 @@ class ProjectStageController extends Controller
     {
         abort_if(Gate::denies('project_stage_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $projectStage->load('project', 'user', 'br', 'userCreated');
+        $projectStage->load('user', 'br');
 
         return view('admin.project-stage.show', compact('projectStage'));
     }

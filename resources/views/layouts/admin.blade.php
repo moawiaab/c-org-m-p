@@ -48,24 +48,8 @@
                 @endif
                 <!-- Main content -->
                 <section class="content">
-                    <div class="card">
-                        {{-- <div class="card card-outline card-secondary"> --}}
-                        <div class="card-header">
-                            <h3 class="card-title"></h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                    data-toggle="tooltip" title="Collapse">
-                                    <i class="fas fa-minus"></i></button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove"
-                                    data-toggle="tooltip" title="Remove">
-                                    <i class="fas fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            @yield('content')
-                        </div>
-
+                    <div class="card-body">
+                        @yield('content')
                     </div>
                 </section>
                 <!-- /.content -->

@@ -23,7 +23,7 @@ class Index extends Component
     public string $search = '';
 
     public array $selected = [];
-    public $listeners = ['delete'];
+    public $listeners = ['delete', '$refresh'];
 
     public array $paginationOptions;
 
@@ -74,7 +74,7 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ]);
+        ])->join('branch_project', 'projects.id', 'branch_project.project_id')->whereIn('branch_project.branch_id', [auth()->user()->br_id]);
 
         $projects = $query->paginate($this->perPage);
 

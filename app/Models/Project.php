@@ -82,6 +82,11 @@ class Project extends Model
         return $this->belongsTo(Donor::class);
     }
 
+    public function detail()
+    {
+        return $this->hasOne(ProjectDetail::class);
+    }
+
     public function user()
     {
         return $this->belongsToMany(User::class);

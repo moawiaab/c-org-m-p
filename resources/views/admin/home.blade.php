@@ -93,6 +93,8 @@
         </div>
     </div>
 
+    <button onclick="Livewire.emit('openModal', 'edit-user')">Edit User</button>
+
     {{-- Bar chart --}}
     <div class="{{ $chart5->options['column_class'] }} px-4">
         <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 shadow-lg">

@@ -99,6 +99,7 @@
     @endif
     <script src="{{ asset('admin-let/dist/js/adminlte.js') }}"></script>
     <script src="{{ asset('admin-let/dist/js/demo.js') }}"></script>
+    @livewire('livewire-ui-modal')
     @livewireScripts
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-livewire-alert::scripts />

@@ -25,8 +25,8 @@
         "livewire/livewire": "^2.3",
         "maatwebsite/excel": "^3.1",
         "nuovo/spreadsheet-reader": "^0.5.11",
-        "spatie/laravel-medialibrary": "^9.4"
-       
+        "spatie/laravel-medialibrary": "^9.4",
+        "wire-elements/modal": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

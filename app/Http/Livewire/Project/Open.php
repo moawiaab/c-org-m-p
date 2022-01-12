@@ -20,10 +20,10 @@ class Open extends ModalComponent
     {
         return view('livewire.project.open');
     }
-//     public static function modalMaxWidth(): string
-// {
-//     return 'sm';
-// }
+    public static function modalMaxWidth(): string
+{
+    return '3xl';
+}
     public function submit()
     {
         $this->project->status = 1;

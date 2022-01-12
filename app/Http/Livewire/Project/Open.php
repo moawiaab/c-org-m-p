@@ -11,7 +11,8 @@ class Open extends ModalComponent
     use LivewireAlert;
     public Project $project;
 
-    public function mount($projectId) {
+    public function mount($projectId)
+    {
 
         $this->project           = Project::find($projectId);
     }
@@ -19,8 +20,12 @@ class Open extends ModalComponent
     {
         return view('livewire.project.open');
     }
-
-    public function submit (){
+//     public static function modalMaxWidth(): string
+// {
+//     return 'sm';
+// }
+    public function submit()
+    {
         $this->project->status = 1;
         $this->project->save();
         $this->alert('success', trans('global.update_success'));

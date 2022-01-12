@@ -1,14 +1,12 @@
 <div>
     <x-header-model title="open {{$project->name}}" />
-    <div class="relative p-6 flex-auto ">
         <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-            {{ $project->details}}
+            {{ $this->modalMaxWidth()}}
         </p>
-    </div>
     <form wire:submit.prevent="submit" class="pt-3">
 
-        
-        <div class="flex items-center justify-end  border-t border-solid border-blueGray-200 rounded-b">
+
+        <div class="flex items-center justify-end pt-3 border-t border-solid border-blueGray-200 rounded-b">
             <button class="btn btn-indigo mr-2" type="submit">
                 {{ trans('global.save') }}
             </button>

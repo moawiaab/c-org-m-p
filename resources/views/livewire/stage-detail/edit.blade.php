@@ -40,16 +40,6 @@
             {{ trans('cruds.stageDetail.fields.images_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('stageDetail.project_id') ? 'invalid' : '' }}">
-        <label class="form-label" for="project">{{ trans('cruds.stageDetail.fields.project') }}</label>
-        <x-select-list class="form-control" id="project" name="project" :options="$this->listsForFields['project']" wire:model="stageDetail.project_id" />
-        <div class="validation-message">
-            {{ $errors->first('stageDetail.project_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.stageDetail.fields.project_helper') }}
-        </div>
-    </div>
 
     <div class="form-group">
          <div class="col-sm-2"></div>

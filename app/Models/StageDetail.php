@@ -32,7 +32,6 @@ class StageDetail extends Model implements HasMedia
         'stage.name',
         'details',
         'project.name',
-        'users.name',
     ];
 
     protected $appends = [
@@ -46,6 +45,7 @@ class StageDetail extends Model implements HasMedia
     ];
 
     protected $fillable = [
+        'name',
         'stage_id',
         'details',
         'feedback',
@@ -92,10 +92,6 @@ class StageDetail extends Model implements HasMedia
         return $this->belongsTo(Project::class);
     }
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
 
     protected function serializeDate(DateTimeInterface $date)
     {

@@ -70,7 +70,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Project::with(['projectDepartment', 'projectBranch', 'donor', 'user', 'branch', 'country', 'city', 'area'])->advancedFilter([
+        $query = Project::advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,

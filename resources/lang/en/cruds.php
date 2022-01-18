@@ -519,6 +519,11 @@ return [
             'phases_helper'               => ' ',
             'partners'                    => 'Partners',
             'partners_helper'             => ' ',
+            'place'                       => 'The exact location',
+            'longitude'                   => 'Longitude',
+            'latitude'                    => 'Latitude',
+            'beneficiary_category'        => 'beneficiary category',
+            'feeding'                     => 'feeding'
         ],
     ],
     'projectStage' => [

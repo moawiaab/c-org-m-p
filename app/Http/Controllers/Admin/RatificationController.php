@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\Models\ProjectStage;
 use App\Models\Ratification;
 use Gate;
 use Illuminate\Http\Request;
@@ -21,7 +23,15 @@ class RatificationController extends Controller
     {
         abort_if(Gate::denies('ratification_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+       
         return view('admin.ratification.create');
+    }
+
+    public function add(Project $project, ProjectStage $stage)
+    {
+        // abort_if(Gate::denies('ratification_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // dd($project, $stage);
+        return view('admin.ratification.create', compact('project', 'stage'));
     }
 
     public function edit(Ratification $ratification)

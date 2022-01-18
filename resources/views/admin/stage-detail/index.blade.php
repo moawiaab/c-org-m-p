@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('stage-detail.index')
+        @livewire('stage-detail.index', ['stage' => 'null', 'project' => 1, 'stageId' => 1])
 
     </div>
 </div>

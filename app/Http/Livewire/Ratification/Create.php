@@ -14,6 +14,8 @@ class Create extends Component
 {
     public array $mediaToRemove = [];
 
+    public $project;
+    public $stage;
     public array $listsForFields = [];
 
     public Ratification $ratification;
@@ -34,7 +36,7 @@ class Create extends Component
         $this->mediaToRemove[] = $media['uuid'];
     }
 
-    public function mount(Ratification $ratification)
+    public function mount(Ratification $ratification, Project $project, ProjectStage $stage)
     {
         $this->ratification = $ratification;
         $this->initListsForFields();
@@ -42,6 +44,7 @@ class Create extends Component
 
     public function render()
     {
+        // dd($this->project, $this->stage);
         return view('livewire.ratification.create');
     }
 
@@ -49,6 +52,11 @@ class Create extends Component
     {
         $this->validate();
 
+        $this->ratification->user_id = auth()->id();
+        $this->ratification->br_id = auth()->user()->br_id;
+        $this->ratification->project_id = $this->project->id;
+        $this->ratification->project_stage_id = $this->stage->id;
+        $this->ratification->stage = 1;
         $this->ratification->save();
         $this->syncMedia();
 
@@ -59,7 +67,7 @@ class Create extends Component
     {
         collect($this->mediaCollections)->flatten(1)
             ->each(fn ($item) => Media::where('uuid', $item['uuid'])
-            ->update(['model_id' => $this->ratification->id]));
+                ->update(['model_id' => $this->ratification->id]));
 
         Media::whereIn('uuid', $this->mediaToRemove)->delete();
     }
@@ -67,16 +75,6 @@ class Create extends Component
     protected function rules(): array
     {
         return [
-            'ratification.project_id' => [
-                'integer',
-                'exists:projects,id',
-                'nullable',
-            ],
-            'ratification.project_stage_id' => [
-                'integer',
-                'exists:project_stages,id',
-                'nullable',
-            ],
             'ratification.amount' => [
                 'numeric',
                 'required',
@@ -100,26 +98,6 @@ class Create extends Component
             'mediaCollections.ratification_invoices.*.id' => [
                 'integer',
                 'exists:media,id',
-            ],
-            'ratification.user_id' => [
-                'integer',
-                'exists:users,id',
-                'nullable',
-            ],
-            'ratification.br_id' => [
-                'integer',
-                'exists:branches,id',
-                'nullable',
-            ],
-            'ratification.stage' => [
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-                'nullable',
-            ],
-            'ratification.feedback' => [
-                'string',
-                'nullable',
             ],
         ];
     }

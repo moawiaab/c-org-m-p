@@ -55,18 +55,12 @@
                             {{ trans('cruds.ratification.fields.amount') }}
                             @include('components.table.sort', ['field' => 'amount'])
                         </th>
-                        <th>
-                            {{ trans('cruds.ratification.fields.amount_text') }}
-                            @include('components.table.sort', ['field' => 'amount_text'])
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.ratification.fields.beneficiary') }}
                             @include('components.table.sort', ['field' => 'beneficiary'])
                         </th>
-                        <th>
-                            {{ trans('cruds.ratification.fields.details') }}
-                            @include('components.table.sort', ['field' => 'details'])
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.ratification.fields.invoices') }}
                         </th>
@@ -74,18 +68,12 @@
                             {{ trans('cruds.ratification.fields.user') }}
                             @include('components.table.sort', ['field' => 'user.name'])
                         </th>
-                        <th>
-                            {{ trans('cruds.ratification.fields.br') }}
-                            @include('components.table.sort', ['field' => 'br.name'])
-                        </th>
+                        
                         <th>
                             {{ trans('cruds.ratification.fields.stage') }}
                             @include('components.table.sort', ['field' => 'stage'])
                         </th>
-                        <th>
-                            {{ trans('cruds.ratification.fields.feedback') }}
-                            @include('components.table.sort', ['field' => 'feedback'])
-                        </th>
+                       
                         <th>
                         </th>
                     </tr>
@@ -112,15 +100,11 @@
                             <td>
                                 {{ $ratification->amount }}
                             </td>
-                            <td>
-                                {{ $ratification->amount_text }}
-                            </td>
+                         
                             <td>
                                 {{ $ratification->beneficiary }}
                             </td>
-                            <td>
-                                {{ $ratification->details }}
-                            </td>
+                          
                             <td>
                                 @foreach($ratification->invoices as $key => $entry)
                                     <a class="link-photo" href="{{ $entry['url'] }}">
@@ -133,17 +117,11 @@
                                     <span class="badge badge-relationship">{{ $ratification->user->name ?? '' }}</span>
                                 @endif
                             </td>
-                            <td>
-                                @if($ratification->br)
-                                    <span class="badge badge-relationship">{{ $ratification->br->name ?? '' }}</span>
-                                @endif
-                            </td>
+                           
                             <td>
                                 {{ $ratification->stage }}
                             </td>
-                            <td>
-                                {{ $ratification->feedback }}
-                            </td>
+                          
                             <td>
                                 <div class="flex justify-end">
                                     @can('ratification_show')

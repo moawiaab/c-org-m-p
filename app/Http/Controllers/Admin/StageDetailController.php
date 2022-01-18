@@ -43,7 +43,7 @@ class StageDetailController extends Controller
     {
         abort_if(Gate::denies('stage_detail_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $stageDetail->load('stage', 'project', 'user');
+        $stageDetail->load('stage', 'project');
 
         return view('admin.stage-detail.show', compact('stageDetail'));
     }

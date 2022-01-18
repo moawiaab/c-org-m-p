@@ -17,7 +17,7 @@ class CreateProjectDetailsTable extends Migration
             $table->unsignedBigInteger('project_id')->uniqid();
             $table->foreign('project_id', 'project_id_fk_54134')->references('id')->on('projects');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id', 'user_id_fk_547611134')->references('id')->on('user_id');
+            $table->foreign('user_id', 'user_id_f_611134')->references('id')->on('users');
             $table->string('details', 30)->nullable();
             $table->string('place', 100)->nullable();
             $table->string('longitude', 30)->nullable();

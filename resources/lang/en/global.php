@@ -324,5 +324,6 @@ return [
     'messenger'                      => 'Messenger',
     'search'                         => 'search here',
     'f_open'                         => 'There is an open fiscal year',
-    'transition'                     => 'Transition'
+    'transition'                     => 'Transition',
+    'opening_last'                   => 'the project opened success',
 ];

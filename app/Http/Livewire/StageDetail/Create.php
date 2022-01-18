@@ -5,37 +5,23 @@ namespace App\Http\Livewire\StageDetail;
 use App\Models\Project;
 use App\Models\ProjectStage;
 use App\Models\StageDetail;
-use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+// use Livewire\Component;
+use LivewireUI\Modal\ModalComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Create extends Component
+class Create extends ModalComponent
 {
+    use LivewireAlert;
     public StageDetail $stageDetail;
+    public $stage;
+    public $project;
 
-    public array $mediaToRemove = [];
-
-    public array $listsForFields = [];
-
-    public array $mediaCollections = [];
-
-    public function addMedia($media): void
+    public function mount(StageDetail $stageDetail, $project, $stage)
     {
-        $this->mediaCollections[$media['collection_name']][] = $media;
-    }
-
-    public function removeMedia($media): void
-    {
-        $collection = collect($this->mediaCollections[$media['collection_name']]);
-
-        $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
-
-        $this->mediaToRemove[] = $media['uuid'];
-    }
-
-    public function mount(StageDetail $stageDetail)
-    {
-        $this->stageDetail = $stageDetail;
-        $this->initListsForFields();
+        $this->stageDetail             = $stageDetail;
+        $this->stage                   = $stage;
+        $this->project                 = $project;
     }
 
     public function render()
@@ -46,53 +32,26 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->stageDetail->project_id = $this->project;
+        $this->stageDetail->stage_id   = $this->stage;
         $this->stageDetail->save();
-        $this->syncMedia();
-
-        return redirect()->route('admin.stage-details.index');
-    }
-
-    protected function syncMedia(): void
-    {
-        collect($this->mediaCollections)->flatten(1)
-            ->each(fn ($item) => Media::where('uuid', $item['uuid'])
-            ->update(['model_id' => $this->stageDetail->id]));
-
-        Media::whereIn('uuid', $this->mediaToRemove)->delete();
+        $this->closeModal();
+        $this->alert('success', trans('global.create_success'));
+        $this->emitTo('stage-detail.index', '$refresh');
     }
 
     protected function rules(): array
     {
         return [
-            'stageDetail.stage_id' => [
-                'integer',
-                'exists:project_stages,id',
-                'nullable',
-            ],
+
             'stageDetail.details' => [
                 'string',
-                'nullable',
+                'required',
             ],
-            'mediaCollections.stage_detail_images' => [
-                'array',
-                'nullable',
-            ],
-            'mediaCollections.stage_detail_images.*.id' => [
-                'integer',
-                'exists:media,id',
-            ],
-            'stageDetail.project_id' => [
-                'integer',
-                'exists:projects,id',
-                'nullable',
+            'stageDetail.name' => [
+                'string',
+                'required',
             ],
         ];
-    }
-
-    protected function initListsForFields(): void
-    {
-        $this->listsForFields['stage']   = ProjectStage::pluck('name', 'id')->toArray();
-        $this->listsForFields['project'] = Project::pluck('name', 'id')->toArray();
     }
 }

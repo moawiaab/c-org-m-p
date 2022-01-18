@@ -2,23 +2,11 @@
 
     <div class="form-group {{ $errors->has('ratification.project_id') ? 'invalid' : '' }}">
         <label class="form-label" for="project">{{ trans('cruds.ratification.fields.project') }}</label>
-        <x-select-list class="form-control" id="project" name="project" :options="$this->listsForFields['project']" wire:model="ratification.project_id" />
-        <div class="validation-message">
-            {{ $errors->first('ratification.project_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.project_helper') }}
-        </div>
+        <input class="form-control" type="text" name="amount" id="amount" value="{{@$project->name}}" disabled>
     </div>
     <div class="form-group {{ $errors->has('ratification.project_stage_id') ? 'invalid' : '' }}">
         <label class="form-label" for="project_stage">{{ trans('cruds.ratification.fields.project_stage') }}</label>
-        <x-select-list class="form-control" id="project_stage" name="project_stage" :options="$this->listsForFields['project_stage']" wire:model="ratification.project_stage_id" />
-        <div class="validation-message">
-            {{ $errors->first('ratification.project_stage_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.project_stage_helper') }}
-        </div>
+        <input class="form-control" type="text" name="amount" id="amount" value="{{@$stage->name}}" disabled>
     </div>
     <div class="form-group {{ $errors->has('ratification.amount') ? 'invalid' : '' }}">
         <label class="form-label required" for="amount">{{ trans('cruds.ratification.fields.amount') }}</label>
@@ -70,47 +58,7 @@
             {{ trans('cruds.ratification.fields.invoices_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('ratification.user_id') ? 'invalid' : '' }}">
-        <label class="form-label" for="user">{{ trans('cruds.ratification.fields.user') }}</label>
-        <x-select-list class="form-control" id="user" name="user" :options="$this->listsForFields['user']" wire:model="ratification.user_id" />
-        <div class="validation-message">
-            {{ $errors->first('ratification.user_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.user_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('ratification.br_id') ? 'invalid' : '' }}">
-        <label class="form-label" for="br">{{ trans('cruds.ratification.fields.br') }}</label>
-        <x-select-list class="form-control" id="br" name="br" :options="$this->listsForFields['br']" wire:model="ratification.br_id" />
-        <div class="validation-message">
-            {{ $errors->first('ratification.br_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.br_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('ratification.stage') ? 'invalid' : '' }}">
-        <label class="form-label" for="stage">{{ trans('cruds.ratification.fields.stage') }}</label>
-        <input class="form-control" type="number" name="stage" id="stage" wire:model.defer="ratification.stage" step="1">
-        <div class="validation-message">
-            {{ $errors->first('ratification.stage') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.stage_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('ratification.feedback') ? 'invalid' : '' }}">
-        <label class="form-label" for="feedback">{{ trans('cruds.ratification.fields.feedback') }}</label>
-        <textarea class="form-control" name="feedback" id="feedback" wire:model.defer="ratification.feedback" rows="4"></textarea>
-        <div class="validation-message">
-            {{ $errors->first('ratification.feedback') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.ratification.fields.feedback_helper') }}
-        </div>
-    </div>
-
+   
     <div class="form-group">
          <div class="col-sm-2"></div>
         <div class="col-sm-8">

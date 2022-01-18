@@ -5,11 +5,13 @@ namespace App\Http\Livewire\StageDetail;
 use App\Models\Project;
 use App\Models\ProjectStage;
 use App\Models\StageDetail;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Edit extends Component
 {
+    use LivewireAlert;
     public StageDetail $stageDetail;
 
     public array $mediaToRemove = [];
@@ -57,8 +59,8 @@ class Edit extends Component
 
         $this->stageDetail->save();
         $this->syncMedia();
-
-        return redirect()->route('admin.stage-details.index');
+        $this->flash('success', trans('global.update_success'));
+        return redirect()->route('admin.projects.show', $this->stageDetail->project_id);
     }
 
     protected function syncMedia(): void
@@ -94,17 +96,12 @@ class Edit extends Component
                 'integer',
                 'exists:media,id',
             ],
-            'stageDetail.project_id' => [
-                'integer',
-                'exists:projects,id',
-                'nullable',
-            ],
         ];
     }
 
     protected function initListsForFields(): void
     {
         $this->listsForFields['stage']   = ProjectStage::pluck('name', 'id')->toArray();
-        $this->listsForFields['project'] = Project::pluck('name', 'id')->toArray();
+        // $this->listsForFields['project'] = Project::pluck('name', 'id')->toArray();
     }
 }

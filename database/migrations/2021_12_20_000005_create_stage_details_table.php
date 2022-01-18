@@ -10,6 +10,7 @@ class CreateStageDetailsTable extends Migration
     {
         Schema::create('stage_details', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name', 50);
             $table->longText('details')->nullable();
             $table->longText('feedback')->nullable();
             $table->timestamps();

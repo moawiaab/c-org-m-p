@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('stage-detail.create')
+            @livewire('stage-detail.create',["project" => 1, "stage" => 1])
         </div>
     </div>
 </div>

@@ -351,6 +351,13 @@
                 @endif
 
                 <li class="items-center">
+                    <a href="{{ route("profile.show") }}" class="{{ request()->is("profile") ? "sidebar-nav-active" : "sidebar-nav" }}">
+                        <i class="fa-fw c-sidebar-nav-icon fas fa-user-circle"></i>
+                        {{ trans('global.my_profile') }}
+                    </a>
+                </li>
+
+                <li class="items-center">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="sidebar-nav">
                         <i class="fa-fw fas fa-sign-out-alt"></i>
                         {{ trans('global.logout') }}

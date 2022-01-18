@@ -44,8 +44,6 @@ class ProjectController extends Controller
         abort_if(Gate::denies('project_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $project->load('projectDepartment', 'projectBranch', 'donor', 'user', 'branch', 'country', 'city', 'area', 'phases', 'partners', 'detail');
-
-        // dd($project->detail);
         return view('admin.project.show', compact('project'));
     }
 }

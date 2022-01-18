@@ -65,7 +65,7 @@
                             @include('components.table.sort', ['field' => 'reserved_amount'])
                         </th>
                         <th>
-                            {{ trans('cruds.project.fields.user') }}
+                            {{ trans('cruds.project.fields.partners') }}
                         </th>
                         <th>
                             {{ trans('cruds.project.fields.country') }}
@@ -101,7 +101,7 @@
                             {{ $project->reserved_amount }}
                         </td>
                         <td>
-                            @foreach($project->user as $key => $entry)
+                            @foreach($project->partners as $key => $entry)
                             <span class="badge badge-relationship">{{ $entry->name }}</span>
                             @endforeach
                         </td>
@@ -133,12 +133,14 @@
                                 @endcan
 
                                 @can('project_delete')
+                                @if ($project->status == 2)
                                 <button class="btn btn-sm mr-2" type="button"
                                     onclick='Livewire.emit("openModal", "project.open", {{ json_encode(["projectId" => $project->id]) }})'
                                     wire:loading.attr="disabled">
                                     <i class="far fa-folder-open text-success"></i>
                                 </button>
                                 @endcan
+                                @endif
                             </div>
                         </td>
                     </tr>

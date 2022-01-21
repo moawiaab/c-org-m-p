@@ -4,6 +4,7 @@ namespace App\Models;
 
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,6 +21,12 @@ class Ratification extends Model implements HasMedia
 
     public $table = 'ratifications';
 
+      public const STATUS_RADIO = [
+        1 => 'New',
+        2 => 'Executive',
+        3 => 'Financial',
+        4 => 'Finished'
+    ];
     public $orderable = [
         'id',
         'project.name',
@@ -145,5 +152,10 @@ class Ratification extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getStageLabelAttribute($value)
+    {
+        return static::STATUS_RADIO[$this->stage] ?? null;
     }
 }

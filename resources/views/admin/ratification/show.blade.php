@@ -154,7 +154,7 @@
                                 {{ trans('cruds.ratification.fields.stage') }}
                             </th>
                             <td>
-                                {{ $ratification->stage }}
+                                {{ $ratification->stage_label }}
                             </td>
                         </tr>
                         <tr>

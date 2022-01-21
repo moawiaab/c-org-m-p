@@ -80,7 +80,7 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ])->where('stage_id',$this->stageId);
+        ])->where('stage_id',$this->stageId)->where('project_id', $this->project);
         $stageDetails = $query->paginate($this->perPage);
         return view('livewire.stage-detail.index', compact('query', 'stageDetails'));
     }

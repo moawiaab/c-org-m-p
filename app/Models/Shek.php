@@ -81,7 +81,7 @@ class Shek extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Ratification::class);
     }
 
     public function getTypeLabelAttribute($value)

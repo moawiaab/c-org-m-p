@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Ratification;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
+use App\Models\Branch;
 use App\Models\Ratification;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -23,7 +24,7 @@ class Index extends Component
     public string $search = '';
 
     public array $selected = [];
-    public $listeners = ['delete'];
+    public $listeners = ['delete',  '$refresh'];
 
     public array $paginationOptions;
 
@@ -74,7 +75,11 @@ class Index extends Component
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
-        ]);
+        ])->when(auth()->user()->br_id === 1, function ($q) {
+            $q->whereIn('br_id', Branch::where('status', 1)->pluck('id'));
+        })->when(auth()->user()->br_id != 1, function ($q) {
+            $q->where('br_id', auth()->user()->br_id);
+        });
 
         $ratifications = $query->paginate($this->perPage);
 
@@ -90,39 +95,34 @@ class Index extends Component
         $this->resetSelected();
     }
 
-    public function delete(Ratification $ratification)
+    public function deleteConfirm($id = 0)
+    {
+        $this->alert('question', trans('global.areYouSure'), [
+            'showDenyButton' => true,
+            'denyButtonText' => trans('global.delete'),
+            'showCancelButton' => true,
+            'cancelButtonText' => trans('global.cancel'),
+            'inputAttributes'  => $id,
+            'onDenied' => 'delete',
+            'onDismissed' => 'cancelled',
+            'position' => 'center',
+            'timer' => null
+        ]);
+    }
+
+    public function delete($data)
     {
         abort_if(Gate::denies('ratification_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $ratification->delete();
-        $this->resetSelected();
-    }
-
-    public function deleteConfirm($id)
-    {
-        $this->dispatchBrowserEvent(
-            'swal:comfirm',
-            [
-                'type'  => 'warning',
-                'text' => 'Deleted successfully.',
-                'title' => 'delete',
-                'id' => $id
-            ]
-
-        );
-    }
-
-    public function deleteAllConfirm()
-    {
-        $this->dispatchBrowserEvent(
-            'swal:comfirmAll',
-            [
-                'type'  => 'warning',
-                'text' => 'Deleted successfully.',
-                'title' => 'deleteSelected',
-                'id'    => $this->selected
-            ]
-
-        );
+        $id = $data['data']['inputAttributes'];
+        if ($id == 0) {
+            Ratification::whereIn('id', $this->selected)->delete();
+            $this->resetSelected();
+            $this->alert('info', trans('global.delete_success'));
+        } else {
+            $com = Ratification::find($id);
+            if ($com->delete()) {
+                $this->alert('info', trans('global.delete_success'));
+            }
+        }
     }
 }

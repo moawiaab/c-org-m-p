@@ -7,11 +7,13 @@ use App\Models\Project;
 use App\Models\ProjectStage;
 use App\Models\Ratification;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Create extends Component
 {
+    use LivewireAlert;
     public array $mediaToRemove = [];
 
     public $project;
@@ -59,8 +61,8 @@ class Create extends Component
         $this->ratification->stage = 1;
         $this->ratification->save();
         $this->syncMedia();
-
-        return redirect()->route('admin.ratifications.index');
+        $this->flash('success', trans('global.create_success'));
+        return redirect()->route('admin.ratification.index');
     }
 
     protected function syncMedia(): void

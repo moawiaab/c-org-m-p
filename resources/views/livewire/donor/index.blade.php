@@ -137,6 +137,11 @@
                                             <i class="far fa-trash-alt text-danger" title="{{ trans('global.delete') }}"></i>
                                         </button>
                                     @endcan
+                                    <button
+                                    onclick='Livewire.emit("openModal", "donor.admin", {{json_encode(["donor" => $donor])}})'
+                                    type="button" class="btn btn-sm">
+                                    <i class="fas fa-hand-holding-usd text-green" title=""></i>
+                                </button>
                                 </div>
                             </td>
                         </tr>

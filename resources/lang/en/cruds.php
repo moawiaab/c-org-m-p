@@ -159,6 +159,7 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
+            'teg_amount'        => 'Amount Teg'
         ],
     ],
     'fiscalYear' => [
@@ -277,6 +278,7 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
+            'dolar'             => 'Dolar'
         ],
     ],
     'bankAmount' => [
@@ -690,6 +692,7 @@ return [
             'updated_at_helper'  => ' ',
             'deleted_at'         => 'Deleted at',
             'deleted_at_helper'  => ' ',
+            'unit_amount'        => 'unit'
         ],
     ],
 ];

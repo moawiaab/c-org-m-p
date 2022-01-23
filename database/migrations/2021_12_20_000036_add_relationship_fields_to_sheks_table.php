@@ -12,7 +12,7 @@ class AddRelationshipFieldsToSheksTable extends Migration
             $table->unsignedBigInteger('expense_id')->nullable();
             $table->foreign('expense_id', 'expense_fk_5617205')->references('id')->on('expenses');
             $table->unsignedBigInteger('project_id')->nullable();
-            $table->foreign('project_id', 'project_fk_5617206')->references('id')->on('Ratifications');
+            $table->foreign('project_id', 'project_fk_5617206')->references('id')->on('ratifications');
             $table->unsignedBigInteger('bank_id')->nullable();
             $table->foreign('bank_id', 'bank_fk_5617209')->references('id')->on('banks');
             $table->unsignedBigInteger('user_id')->nullable();

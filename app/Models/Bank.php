@@ -74,6 +74,10 @@ class Bank extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function dolars(){
+        return $this->hasMany(DonorAmount::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

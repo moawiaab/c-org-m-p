@@ -121,6 +121,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('stage-details', StageDetailController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Ratification
+    Route::get('ratifications/print/{ratification}', [RatificationController::class, 'print'])->name('ratifications.print');
     Route::get('ratifications/add/{project}/{stage}', [RatificationController::class, 'add'])->name('ratifications.add');
     Route::post('ratifications/media', [RatificationController::class, 'storeMedia'])->name('ratifications.storeMedia');
     Route::resource('ratifications', RatificationController::class, ['except' => ['store', 'update', 'destroy']]);

@@ -15,6 +15,7 @@ class CreateBanksTable extends Migration
             $table->string('number')->nullable();
             $table->decimal('amount', 15, 2)->nullable();
             $table->decimal('amount_in', 15, 2)->nullable();
+            $table->decimal('dolar', 15, 2)->nullable();
             $table->decimal('amount_out', 15, 2)->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

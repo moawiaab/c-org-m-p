@@ -21,7 +21,7 @@ class Admin extends ModalComponent
     public function mount(Ratification $ratification)
     {
         $this->ratification = $ratification;
-        if ($ratification ===  3) {
+        if ($ratification->stage ===  3) {
             $this->shek = new Shek();
         }
         $this->initListsForFields();
@@ -36,25 +36,26 @@ class Admin extends ModalComponent
     {
         $this->validate();
 
+        // dd($this->shek);
         if ($this->ratification->stage === 1) {
             $this->ratification->stage = 2;
             $this->ratification->executive_id = auth()->id();
         } elseif ($this->ratification->stage === 2) {
             $this->ratification->stage = 3;
             $this->ratification->financial_id = auth()->id();
-        } elseif ($this->ratification->stage === 3) {
+        } elseif ($this->ratification->stage === 3 && $this->shek) {
             $this->ratification->stage          = 4;
             $this->ratification->accountant_id      = auth()->id();
             if ($this->ratification->save()) {
                 $this->shek->project_id   = $this->ratification->id;
-                $this->shek->type         = 1;
+                $this->shek->type         = 0;
                 $this->shek->amount       = $this->ratification->amount;
                 $this->shek->bank_id      = $this->bank_id;
                 $this->shek->user_id      = auth()->id();
                 $this->shek->br_id        = auth()->user()->br_id;
                 $this->shek->shek_number  = $this->shek_number;
                 $this->shek->entry_date   = $this->entry_date;
-                $this->shek->amount_text  = $this->ratification->text_amount;
+                $this->shek->amount_text  = $this->ratification->amount_text;
                 $this->shek->status       = 1;
                 if ($this->shek->save()) {
                     //TODO: check For teg amount now or after shek

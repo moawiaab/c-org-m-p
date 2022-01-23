@@ -35,8 +35,9 @@ class BankController extends Controller
     {
         abort_if(Gate::denies('bank_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bank->load('br', 'user');
+        $bank->load('br', 'user', 'dolars');
 
+        // dd($bank->dolars);
         return view('admin.bank.show', compact('bank'));
     }
 }

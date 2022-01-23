@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Project;
 use App\Models\ProjectStage;
 use App\Models\Ratification;
+use App\Models\Shek;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -76,5 +78,17 @@ class RatificationController extends Controller
         $media->wasRecentlyCreated = true;
 
         return response()->json(compact('media'), Response::HTTP_CREATED);
+    }
+
+
+    public function print(Ratification $ratification)
+    {
+        $ratification->load('project', 'projectStage', 'user', 'br', 'projectManager', 'executive', 'financial', 'accountant');
+        $shek = Shek::with('bank')->where('project_id', $ratification->id)->first();
+
+        $img = Branch::find(auth()->user()->br_id)->first()->logo->first();
+        
+        // dd($ratification, $shek, $img);
+        return view('admin.ratification.account', compact('ratification', 'shek', 'img'));
     }
 }

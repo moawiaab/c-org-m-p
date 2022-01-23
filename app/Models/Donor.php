@@ -62,6 +62,10 @@ class Donor extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function dolar(){
+        return $this->hasMany(DonorAmount::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

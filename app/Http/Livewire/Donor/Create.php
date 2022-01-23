@@ -29,7 +29,6 @@ class Create extends Component
     public function submit()
     {
         $this->validate();
-
         $this->donor->user_id = auth()->id();
         $this->donor->br_id   = auth()->user()->br_id;
         $this->donor->amount = 0;

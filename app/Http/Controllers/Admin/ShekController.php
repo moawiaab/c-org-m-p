@@ -45,6 +45,7 @@ class ShekController extends Controller
 
         $shek->load('expense', 'project', 'bank', 'user', 'br');
 
+        dd($shek->project);
         return view('admin.shek.show', compact('shek'));
     }
 }

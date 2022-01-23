@@ -24,7 +24,7 @@ class Index extends Component
     public string $search = '';
 
     public array $selected = [];
-    public $listeners = ['delete'];
+    public $listeners = ['delete', '$refresh'];
 
     public array $paginationOptions;
 

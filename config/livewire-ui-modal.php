@@ -11,7 +11,7 @@ return [
     | to set this parameter to true. This includes the modern-normalize css.
     |
     */
-    'include_css' => false,
+    'include_css' => true,
 
 
     /*

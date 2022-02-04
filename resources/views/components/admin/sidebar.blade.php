@@ -8,63 +8,56 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{{asset('img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div> --}}
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('admin.home') }}"
-                        class="{{ request()->is('admin') ? 'sidebar-nav-active' : 'sidebar-nav' }}">
-                        <i class="fas fa-tv"></i>
-                        {{ trans('global.dashboard') }}
+                        class="{{ request()->is('admin') ? 'active' : ' ' }} nav-link">
+                        <i class="nav-icon fas fa-tv"></i>
+                        <p>{{ trans('global.dashboard') }}</p>
                     </a>
                 </li>
-
+               
                 @can('setting_access')
-                    <li class="nav-item has-treeview">
-                        <a class="has-sub {{ request()->is('admin/branches*') || request()->is('admin/donors*') || request()->is('admin/fiscal-years*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/branches*') || request()->is('admin/donors*') || request()->is('admin/fiscal-years*') ? 'menu-open' : '' }}">
+                        <a class="nav-link {{ request()->is('admin/branches*') || request()->is('admin/donors*') || request()->is('admin/fiscal-years*') ? 'active' : '' }}"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-sliders-h">
-                            </i>
-                            {{ trans('cruds.setting.title') }}
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-sliders-h"></i>
+                            <p>
+                                {{ trans('cruds.setting.title') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('branch_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/branches*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="nav-link {{ request()->is('admin/branches*') ? 'active' : '' }}"
                                         href="{{ route('admin.branches.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-code-branch">
+                                        <i class="nav-icon  fas fa-code-branch">
                                         </i>
-                                        {{ trans('cruds.branch.title') }}
+                                        <p>{{ trans('cruds.branch.title') }}</p>
+                                        
                                     </a>
                                 </li>
                             @endcan
                             @can('donor_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/donors*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/donors*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.donors.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-hand-holding-usd">
+                                        <i class="nav-icon  fas fa-hand-holding-usd">
                                         </i>
-                                        {{ trans('cruds.donor.title') }}
+                                       <p> {{ trans('cruds.donor.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('fiscal_year_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/fiscal-years*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/fiscal-years*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.fiscal-years.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        <i class="nav-icon  fas fa-cogs">
                                         </i>
-                                        {{ trans('cruds.fiscalYear.title') }}
+                                       <p> {{ trans('cruds.fiscalYear.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -72,31 +65,35 @@
                     </li>
                 @endcan
                 @can('expense_management_access')
-                    <li class="nav-item has-treeview">
-                        <a class="has-sub {{ request()->is('admin/expenses*') || request()->is('admin/ratifications*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/expenses*') || request()->is('admin/ratifications*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/expenses*') || request()->is('admin/ratifications*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-hand-holding-usd">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-hand-holding-usd">
                             </i>
+                            <p>
                             {{ trans('cruds.expenseManagement.title') }}
+
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('expense_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/expenses*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/expenses*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.expenses.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fab fa-etsy">
+                                        <i class="nav-icon  fab fa-etsy">
                                         </i>
-                                        {{ trans('cruds.expense.title') }}
+                                       <p> {{ trans('cruds.expense.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('ratification_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/ratifications*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/ratifications*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.ratifications.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon far fa-money-bill-alt">
+                                        <i class="nav-icon  far fa-money-bill-alt">
                                         </i>
-                                        {{ trans('cruds.ratification.title') }}
+                                       <p> {{ trans('cruds.ratification.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -104,31 +101,34 @@
                     </li>
                 @endcan
                 @can('budge_list_access')
-                    <li class="nav-item">
-                        <a class="has-sub {{ request()->is('admin/budget-names*') || request()->is('admin/budgets*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/budget-names*') || request()->is('admin/budgets*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/budget-names*') || request()->is('admin/budgets*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-align-justify">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-align-justify">
                             </i>
+                            <p>
                             {{ trans('cruds.budgeList.title') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('budget_name_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/budget-names*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/budget-names*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.budget-names.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-credit-card">
+                                        <i class="nav-icon  fas fa-credit-card">
                                         </i>
-                                        {{ trans('cruds.budgetName.title') }}
+                                      <p>  {{ trans('cruds.budgetName.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('budget_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/budgets*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/budgets*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.budgets.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-sort-amount-up">
+                                        <i class="nav-icon  fas fa-sort-amount-up">
                                         </i>
-                                        {{ trans('cruds.budget.title') }}
+                                        <p>{{ trans('cruds.budget.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -136,61 +136,64 @@
                     </li>
                 @endcan
                 @can('project_management_access')
-                    <li class="nav-item">
-                        <a class="has-sub {{ request()->is('admin/project-departments*') || request()->is('admin/project-branches*') || request()->is('admin/projects*') || request()->is('admin/project-stages*') || request()->is('admin/stage-details*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/project-departments*') || request()->is('admin/project-branches*') || request()->is('admin/projects*') || request()->is('admin/project-stages*') || request()->is('admin/stage-details*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/project-departments*') || request()->is('admin/project-branches*') || request()->is('admin/projects*') || request()->is('admin/project-stages*') || request()->is('admin/stage-details*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-project-diagram">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-project-diagram">
                             </i>
+                            <p>
                             {{ trans('cruds.projectManagement.title') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('project_department_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/project-departments*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/project-departments*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.project-departments.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-chalkboard-teacher">
+                                        <i class="nav-icon  fas fa-chalkboard-teacher">
                                         </i>
-                                        {{ trans('cruds.projectDepartment.title') }}
+                                        <p>{{ trans('cruds.projectDepartment.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('project_branch_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/project-branches*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/project-branches*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.project-branches.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-code-branch">
+                                        <i class="nav-icon  fas fa-code-branch">
                                         </i>
-                                        {{ trans('cruds.projectBranch.title') }}
+                                       <p> {{ trans('cruds.projectBranch.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('project_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/projects*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/projects*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.projects.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-chart-pie">
+                                        <i class="nav-icon  fas fa-chart-pie">
                                         </i>
-                                        {{ trans('cruds.project.title') }}
+                                        <p>{{ trans('cruds.project.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('project_stage_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/project-stages*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/project-stages*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.project-stages.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon far fa-snowflake">
+                                        <i class="nav-icon  far fa-snowflake">
                                         </i>
-                                        {{ trans('cruds.projectStage.title') }}
+                                        <p>{{ trans('cruds.projectStage.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('stage_detail_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/stage-details*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/stage-details*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.stage-details.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-bars">
+                                        <i class="nav-icon  fas fa-bars">
                                         </i>
-                                        {{ trans('cruds.stageDetail.title') }}
+                                        <p>{{ trans('cruds.stageDetail.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -198,51 +201,54 @@
                     </li>
                 @endcan
                 @can('financial_window_access')
-                    <li class="nav-item">
-                        <a class="has-sub {{ request()->is('admin/banks*') || request()->is('admin/bank-amounts*') || request()->is('admin/treasuries*') || request()->is('admin/sheks*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/banks*') || request()->is('admin/bank-amounts*') || request()->is('admin/treasuries*') || request()->is('admin/sheks*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/banks*') || request()->is('admin/bank-amounts*') || request()->is('admin/treasuries*') || request()->is('admin/sheks*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-file-invoice-dollar">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-file-invoice-dollar">
                             </i>
-                            {{ trans('cruds.financialWindow.title') }}
+                            <p>
+                                {{ trans('cruds.financialWindow.title') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('bank_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/banks*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/banks*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.banks.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-university">
+                                        <i class="nav-icon  fas fa-university">
                                         </i>
-                                        {{ trans('cruds.bank.title') }}
+                                       <p> {{ trans('cruds.bank.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('bank_amount_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/bank-amounts*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/bank-amounts*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.bank-amounts.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-exchange-alt">
+                                        <i class="nav-icon  fas fa-exchange-alt">
                                         </i>
-                                        {{ trans('cruds.bankAmount.title') }}
+                                        <p>{{ trans('cruds.bankAmount.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('treasury_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/treasuries*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/treasuries*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.treasuries.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon far fa-hdd">
+                                        <i class="nav-icon  far fa-hdd">
                                         </i>
-                                        {{ trans('cruds.treasury.title') }}
+                                       <p> {{ trans('cruds.treasury.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('shek_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/sheks*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/sheks*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.sheks.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-file-invoice-dollar">
+                                        <i class="nav-icon  fas fa-file-invoice-dollar">
                                         </i>
-                                        {{ trans('cruds.shek.title') }}
+                                       <p> {{ trans('cruds.shek.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -250,51 +256,54 @@
                     </li>
                 @endcan
                 @can('user_management_access')
-                    <li class="nav-item">
-                        <a class="has-sub {{ request()->is('admin/permissions*') || request()->is('admin/roles*') || request()->is('admin/users*') || request()->is('admin/user-alerts*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') || request()->is('admin/roles*') || request()->is('admin/users*') || request()->is('admin/user-alerts*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/permissions*') || request()->is('admin/roles*') || request()->is('admin/users*') || request()->is('admin/user-alerts*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-users">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-users">
                             </i>
+                            <p>
                             {{ trans('cruds.userManagement.title') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('permission_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/permissions*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/permissions*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.permissions.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-unlock-alt">
+                                        <i class="nav-icon  fas fa-unlock-alt">
                                         </i>
-                                        {{ trans('cruds.permission.title') }}
+                                       <p> {{ trans('cruds.permission.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('role_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/roles*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/roles*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.roles.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-briefcase">
+                                        <i class="nav-icon  fas fa-briefcase">
                                         </i>
-                                        {{ trans('cruds.role.title') }}
+                                       <p> {{ trans('cruds.role.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('user_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/users*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/users*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.users.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-user">
+                                        <i class="nav-icon  fas fa-user">
                                         </i>
-                                        {{ trans('cruds.user.title') }}
+                                      <p>  {{ trans('cruds.user.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('user_alert_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/user-alerts*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/user-alerts*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.user-alerts.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-bell">
+                                        <i class="nav-icon  fas fa-bell">
                                         </i>
-                                        {{ trans('cruds.userAlert.title') }}
+                                        <p>{{ trans('cruds.userAlert.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
@@ -302,53 +311,56 @@
                     </li>
                 @endcan
                 @can('country_management_access')
-                    <li class="nav-item">
-                        <a class="has-sub {{ request()->is('admin/countries*') || request()->is('admin/ctiys*') || request()->is('admin/areas*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                    <li class="nav-item has-treeview {{ request()->is('admin/countries*') || request()->is('admin/ctiys*') || request()->is('admin/areas*') ? 'menu-open' : ' ' }}">
+                        <a class=" {{ request()->is('admin/countries*') || request()->is('admin/ctiys*') || request()->is('admin/areas*') ? 'active' : ' ' }} nav-link"
                             href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-globe-americas">
+                            <i class="nav-icon fa-fw fas c-sidebar-nav-icon fa-globe-americas">
                             </i>
+                            <p>
                             {{ trans('cruds.countryManagement.title') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                         </a>
-                        <ul class="ml-4 subnav hidden">
+                        <ul class="nav nav-treeview">
                             @can('country_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/countries*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/countries*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.countries.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-globe-asia">
+                                        <i class="nav-icon  fas fa-globe-asia">
                                         </i>
-                                        {{ trans('cruds.country.title') }}
+                                        <p>{{ trans('cruds.country.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('ctiy_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/ctiys*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/ctiys*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.ctiys.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-university">
+                                        <i class="nav-icon  fas fa-university">
                                         </i>
-                                        {{ trans('cruds.ctiy.title') }}
+                                       <p> {{ trans('cruds.ctiy.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                             @can('area_access')
                                 <li class="nav-item">
-                                    <a class="{{ request()->is('admin/areas*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                                    <a class="{{ request()->is('admin/areas*') ? 'active' : ' ' }} nav-link"
                                         href="{{ route('admin.areas.index') }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fab fa-uniregistry">
+                                        <i class="nav-icon  fab fa-uniregistry">
                                         </i>
-                                        {{ trans('cruds.area.title') }}
+                                       <p> {{ trans('cruds.area.title') }}</p>
                                     </a>
                                 </li>
                             @endcan
                         </ul>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a class="{{ request()->is('admin/messages*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                <li class="nav-item ">
+                    <a class="{{ request()->is('admin/messages*') ? 'active' : ' ' }} nav-link"
                         href="{{ route('admin.messages.index') }}">
-                        <i class="far fa-fw fa-envelope c-sidebar-nav-icon">
+                        <i class="nav-icon far fa-fw fa-envelope c-sidebar-nav-icon">
                         </i>
-                        {{ __('global.messages') }}
+                        <p>{{ __('global.messages') }}</p>
                         @if ($unreadConversations['all'])
                             <span class="text-xs bg-rose-500 text-white px-2 py-1 rounded-xl font-bold float-right">
                                 {{ $unreadConversations['all'] }}
@@ -362,9 +374,9 @@
                     @can('auth_profile_edit')
                         <li class="nav-item">
                             <a href="{{ route('profile.show') }}"
-                                class="{{ request()->is('profile') ? 'sidebar-nav-active' : 'sidebar-nav' }}">
-                                <i class="fa-fw c-sidebar-nav-icon fas fa-user-circle"></i>
-                                {{ trans('global.my_profile') }}
+                                class="{{ request()->is('profile') ? 'active' : ' ' }} nav-link">
+                                <i class="nav-icon  fas fa-user-circle"></i>
+                                <p>{{ trans('global.my_profile') }}</p>
                             </a>
                         </li>
                     @endcan
@@ -372,9 +384,9 @@
 
                 <li class="nav-item">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();"
-                        class="sidebar-nav">
-                        <i class="fa-fw fas fa-sign-out-alt"></i>
-                        {{ trans('global.logout') }}
+                        class="sidebar-nav nav-link">
+                        <i class="nav-icon fa-fw fas fa-sign-out-alt"></i>
+                       <p> {{ trans('global.logout') }}</p>
                     </a>
                 </li>
             </ul>

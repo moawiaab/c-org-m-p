@@ -177,18 +177,6 @@
                     </td>
                     <td>
                         <div class="flex justify-end">
-                            @if (($d->amount - $d->teg_amount) > 0 )
-                            <button
-                                onclick='Livewire.emit("openModal", "bank.admin", {{json_encode(["amount" => $d])}})'
-                                type="button" class="btn btn-sm">
-                                <i class="fas fa-hand-holding-usd text-green" title=""></i>
-                            </button>
-                            @endif
-                            <button
-                                onclick='Livewire.emit("openModal", "donor.show", {{json_encode(["amount" => $d])}})'
-                                type="button" class="btn btn-sm">
-                                <i class="far fa-eye text-info" title=""></i>
-                            </button>
                         </div>
                     </td>
                 </tr>

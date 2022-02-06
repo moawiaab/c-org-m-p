@@ -77,10 +77,10 @@
     </form>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-    <script src="{{ asset('admin-let/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     @if (Config::get('app.locale') == 'ar')
     <script src="{{ asset('admin-let/dist/js/bootstarp.rtl.js') }}"></script>
     @endif
+    <script src="{{ asset('admin-let/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin-let/dist/js/adminlte.js') }}"></script>
     <script src="{{ asset('admin-let/dist/js/demo.js') }}"></script>
     @livewire('livewire-ui-modal')

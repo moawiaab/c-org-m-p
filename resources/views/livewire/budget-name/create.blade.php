@@ -30,7 +30,7 @@
         <div class="col-sm-8">
             @foreach ($this->listsForFields['type'] as $key => $value)
             <label class="radio-label"><input type="radio" name="type" wire:model="budgetName.type"
-                    value="{{ $key }}">{{ $value }}</label>
+                    value="{{ $key }}">{{ $value }}</label> <br>
             @endforeach
             <div class="validation-message">
                 {{ $errors->first('budgetName.type') }}
@@ -45,7 +45,7 @@
         <div class="col-sm-8">
             @foreach ($this->listsForFields['status'] as $key => $value)
             <label class="radio-label"><input type="radio" name="status" wire:model="budgetName.status"
-                    value="{{ $key }}">{{ $value }}</label>
+                    value="{{ $key }}">{{ $value }}</label> <br>
             @endforeach
             <div class="validation-message">
                 {{ $errors->first('budgetName.status') }}

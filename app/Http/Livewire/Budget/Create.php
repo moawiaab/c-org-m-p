@@ -77,7 +77,9 @@ class Create extends Component
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['budget']      = BudgetName::whereNotIn('id', Budget::where([['br_id', auth()->user()->br_id], ['status', 1]])->pluck('budget_id'))
-        ->where('type', 1)->orWhere('br_id', auth()->user()->br_id)->pluck('name', 'id')->toArray();
+        $this->listsForFields['budget']      = BudgetName::whereNotIn('id', Budget::where('br_id', auth()->user()->br_id)->pluck('budget_id'))
+            ->where(function ($q) {
+                $q->where('type', 1)->orWhere('br_id', auth()->user()->br_id);
+            })->pluck('name', 'id')->toArray();
     }
 }

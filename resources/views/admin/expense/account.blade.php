@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="pt-3">
-    <img src="{{$img['url']}}" alt="" srcset="">
+    <img src="{{@$img['url']}}" alt="" srcset="">
     <table class="table table-view">
         <tbody class="bg-white w-full">
             <tr>
@@ -180,7 +180,7 @@
 @push('scripts')
 <script>
     
-    // window.onload = (event) => this.print();
-    // window.addEventListener('afterprint', (event) =>  history.back() );
+    window.onload = (event) => this.print();
+    window.addEventListener('afterprint', (event) =>  history.back() );
 </script>
 @endpush

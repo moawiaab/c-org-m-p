@@ -59,7 +59,7 @@
                 <div class="float-right d-none d-sm-block">
                     <b>Version</b> 1.0.1
                 </div>
-                <strong>Copyright &copy; 2022 <a href="http://adminlte.io">moawiaab</a>.</strong> All rights
+                <strong>Copyright &copy; 2022 <a href="https://github.com/moawiaab/c-org-m-p">moawiaab</a>.</strong> All rights
                 reserved.  
                 <small>Open source software for charitable organizations</small>
             </footer>

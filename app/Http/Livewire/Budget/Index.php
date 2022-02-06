@@ -19,6 +19,7 @@ class Index extends Component
 
     public int $perPage;
 
+    public $opencode;
     public array $orderable;
 
     public string $search = '';
@@ -130,5 +131,10 @@ class Index extends Component
             ]
 
         );
+    }
+
+    public function updatedOpencode()
+    {
+        dd('ok');
     }
 }

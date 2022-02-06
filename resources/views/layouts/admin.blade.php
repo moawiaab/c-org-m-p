@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
         crossorigin="anonymous" />
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}" /> --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 
     <link rel="stylesheet"
         href="{{ asset('admin-let/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
@@ -25,7 +25,7 @@
     @stack('styles')
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
     <div class="wrapper">
         <div id="app">
@@ -57,10 +57,11 @@
 
             <footer class="main-footer">
                 <div class="float-right d-none d-sm-block">
-                    <b>Version</b> 3.0.0-rc.1
+                    <b>Version</b> 1.0.1
                 </div>
-                <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-                reserved.
+                <strong>Copyright &copy; 2022 <a href="http://adminlte.io">moawiaab</a>.</strong> All rights
+                reserved.  
+                <small>Open source software for charitable organizations</small>
             </footer>
 
             <!-- Control Sidebar -->

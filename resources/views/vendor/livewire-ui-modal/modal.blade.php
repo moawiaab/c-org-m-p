@@ -36,7 +36,7 @@
                 x-transition:leave-end="opacity-0 translate-y-4 md:translate-y-0 md:scale-95" x-bind:class="modalWidth"
                 class="relative p-6 flex-auto inline-block w-full align-content-center bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all md:my-8 md:align-middle md:w-full">
                 @forelse($components as $id => $component)
-                <div x-show.immediate="activeComponent == '{{ $id }}'" x-ref="{{ $id }}" wire:key="{{ $id }}" class="modal-content">
+                <div x-show.immediate="activeComponent == '{{ $id }}'" x-ref="{{ $id }}" wire:key="{{ $id }}" >
                     @livewire($component['name'], $component['attributes'], key($id))
                 </div>
                 @empty

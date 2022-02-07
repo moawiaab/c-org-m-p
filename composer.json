@@ -1,7 +1,7 @@
 {
     "name": "moawiaab/org",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Open source software for charitable organization management",
     "keywords": [
         "framework",
         "laravel"
@@ -21,7 +21,6 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
-        "laraveldaily/laravel-charts": "^0.1.24",
         "livewire/livewire": "^2.3",
         "maatwebsite/excel": "^3.1",
         "nuovo/spreadsheet-reader": "^0.5.11",

@@ -13,5 +13,43 @@ org = organization
 m = management
 p = project
 
-## description 
+## Description 
  Open source software for charitable organization management
+
+## After Download
+# 1
+Run cp .env.example .env file to copy example file to .env
+# 2
+ ```
+composer install
+```
+# 3
+```
+php artisan migrate --seed
+```
+# 4
+```
+php artisan key:g
+```
+# 5 
+
+```
+php artisan storage:link
+```
+# 6 run server
+```
+php artisan serve
+```
+
+# 7 Login
+email : admin@admin.com
+password: password
+
+
+## Or Install By Composer
+
+To get started, require the package via Composer:
+
+```
+composer create-project moawiaab/org
+```
